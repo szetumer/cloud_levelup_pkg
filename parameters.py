@@ -1,6 +1,7 @@
 from pathlib import Path
-from private.configs import ROOT_PATH
+import os
 
+ROOT_PATH = os.getcwd()
 rootpath = Path(ROOT_PATH)
 testpath = rootpath / "tests"
 private_folderpath = rootpath / "private"
