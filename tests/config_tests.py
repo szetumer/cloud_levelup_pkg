@@ -1,7 +1,7 @@
 import pytest
 from pathlib import Path
 from src.cloud_levelup.parameters import rootpath, testspath, commandspath, get_system
-from src.cloud_levelup.command_file import CommandFile, config_command
+from cloud_levelup.command_files import CommandFile, config_command, azurecheck_command
 
 @pytest.mark.parametrize(
         "o", [
@@ -26,6 +26,9 @@ class TestWindows:
         
         def test_config_filerun(self):
                assert config_command.run() == "Hello, World!"
+
+        def test_have_azure_cli(self):
+               assert azurecheck_command.run() == ""
 
 
 @pytest.mark.skipif(get_system() != "iOs", reason = "skipping iOs tests")

@@ -41,3 +41,5 @@ class CommandFile:
 
 
 config_command = CommandFile("config.bat", "config.sh")
+azurecheck_command = CommandFile("check_azure.bat", "check_azure.sh")
+get_subscriptions_command = CommandFile("get_subscriptions.bat", "get_subscriptions.sh")
