@@ -1,12 +1,35 @@
 import pytest
 from pathlib import Path
-from parameters import configs_path, private_folderpath
+from src.cloud_levelup.parameters import rootpath, testspath, commandspath, get_system
+from src.cloud_levelup.command_file import CommandFile, config_command
 
 @pytest.mark.parametrize(
-        "path", [
-         (configs_path)
-        ,(private_folderpath)
+        "o", [
+          (rootpath)
+        , (testspath)
+        , (commandspath)
+        , (config_command)
         ]
 )
-def test_files_exist(path):
-    path.exists()
+def test_files_exist(o : Path | CommandFile):
+        if isinstance(o, Path):
+                assert o.exists()
+        elif isinstance(o, CommandFile):
+                assert o.win_abspath.exists()
+                assert o.ios_abspath.exists()
+
+
+@pytest.mark.skipif(get_system() != "Windows", reason = "skipping Windows tests")
+class TestWindows:
+        def test_is_windows(self):
+                assert get_system() == "Windows"
+        
+        def test_config_filerun(self):
+               assert config_command.run() == "Hello, World!"
+
+
+@pytest.mark.skipif(get_system() != "iOs", reason = "skipping iOs tests")
+class TestIos:
+    def test_is_iOs(self):
+        assert get_system() == "iOs"
+
