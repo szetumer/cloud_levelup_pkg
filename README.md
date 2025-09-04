@@ -12,7 +12,7 @@ pytest tests\config_tests.py
 
 All tests should pass. Simple.
 
-## level1: Getting an Azure Subscription
+## level1: Setting Up an Azure Subscription
 In this level, you will need to figure out how to configure your azure environment and set it up so that it can work for you. This will require an azure account. Get comfortable with these commands:
 ```
 az login
@@ -20,3 +20,4 @@ az logout
 az ad signed-in-user show
 az account list
 ```
+After you explore these commands and get successful output, make sure that you have all required components by running `pytest tests\after_login_tests.py`. These should all pass after you are logged in.

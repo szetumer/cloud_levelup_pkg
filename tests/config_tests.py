@@ -1,7 +1,7 @@
 import pytest
 from pathlib import Path
 from src.cloud_levelup.parameters import rootpath, testspath, commandspath, get_system
-from cloud_levelup.command_files import CommandFile, config_command, azurecheck_command
+from src.cloud_levelup.command_files import CommandFile, config_command, azurecheck_command, subscriptions_command
 
 @pytest.mark.parametrize(
         "o", [
@@ -9,6 +9,8 @@ from cloud_levelup.command_files import CommandFile, config_command, azurecheck_
         , (testspath)
         , (commandspath)
         , (config_command)
+        , (subscriptions_command)
+        , (azurecheck_command)
         ]
 )
 def test_files_exist(o : Path | CommandFile):
@@ -28,11 +30,20 @@ class TestWindows:
                assert config_command.run() == "Hello, World!"
 
         def test_have_azure_cli(self):
-               assert azurecheck_command.run() == ""
-
+               assert azurecheck_command.run() != ""
 
 @pytest.mark.skipif(get_system() != "iOs", reason = "skipping iOs tests")
 class TestIos:
     def test_is_iOs(self):
         assert get_system() == "iOs"
+        
+        def test_config_filerun(self):
+               assert config_command.run() == "Hello, World!"
 
+        def test_have_azure_cli(self):
+               assert azurecheck_command.run() != ""
+
+def test_imports_are_present():
+       import azure.cli
+       import pytest
+       assert True

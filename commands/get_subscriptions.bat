@@ -1,1 +1,2 @@
-az account list
+@echo off
+az account list --all
