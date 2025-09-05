@@ -34,11 +34,11 @@ class TestWindows:
 
 @pytest.mark.skipif(get_system() != "iOs", reason = "skipping iOs tests")
 class TestIos:
-    def test_is_iOs(self):
-        assert get_system() == "iOs"
+        def test_is_iOs(self):
+                assert get_system() == "iOs"
         
         def test_config_filerun(self):
-               assert config_command.run() == "Hello, World!"
+                assert config_command.run() == "Hello, World!"
 
         def test_have_azure_cli(self):
                assert azurecheck_command.run() != ""
