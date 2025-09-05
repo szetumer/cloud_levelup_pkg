@@ -33,7 +33,14 @@ Don't worry about using the cli to create a resource group or a storage account.
 ## Level 2: More Storage and Understanding Costs
 NOTE: you will start to incur costs with this level! If you do not have a free account and do not want to pay anything then you should not go on to this level or subsequent levels. We will work to keep your costs low, but explore budgeting and cost alerts. Use `pytest <tests> -rA` option to look at your answers.
 
-- Familiarize yourself with additional commands `az billing account list` and `az billing profile list`.
-- After you create a storage container, the first test will pass. (Note, it will fail if you have multiple storage accounts and the first one doesn't have any).
+SECOND NOTE: cli commands are getting longer and longer. For that reason, you will store configs for these CLI commands in the my_configs folder within this folder. To create the empty configs for you to fill out, run `python refresh_configs.py`. 
+
+#### Creating Storage Containers
+
+- Create a storage container, after which the first test will pass. (Note, it will fail if you have multiple storage accounts and the first one doesn't have any).
+
+#### Creating a Cost Management Export (a report piping to a storage container)
+- Familiarize yourself with additional commands `az billing account list` and `az billing profile list`. You need to understand the relationship between subscriptions, billing accounts, and billing profiles. These, resource groups and management groups, will determine the scope of the cost reports.
+- 
 - You will need to install the costmanagement extension for your cli. Now your second test should pass.
 - run the file `costreport` in the `query` folder.

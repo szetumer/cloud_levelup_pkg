@@ -7,6 +7,7 @@ ROOT_PATH = os.getcwd()
 rootpath = Path(ROOT_PATH)
 testspath = rootpath / "tests"
 commandspath = rootpath / "commands"
+create_costman_export_configpath = rootpath / "my_configs" / "costman_export.json"
 
 def get_system() -> Literal["Windows"] | Literal["iOs"] | Literal["Linux"]:
     if platform.system() == "Windows":
