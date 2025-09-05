@@ -31,4 +31,9 @@ Don't worry about using the cli to create a resource group or a storage account.
 - Observe which features are associated with which attribute/object.
 
 ## Level 2: More Storage and Understanding Costs
-NOTE: you will start to incur costs with this level! If you do not have a free account and do not want to pay anything then you should not go on to this level or subsequent levels.
+NOTE: you will start to incur costs with this level! If you do not have a free account and do not want to pay anything then you should not go on to this level or subsequent levels. We will work to keep your costs low, but explore budgeting and cost alerts. Use `pytest <tests> -rA` option to look at your answers.
+
+- Familiarize yourself with additional commands `az billing account list` and `az billing profile list`.
+- After you create a storage container, the first test will pass. (Note, it will fail if you have multiple storage accounts and the first one doesn't have any).
+- You will need to install the costmanagement extension for your cli. Now your second test should pass.
+- run the file `costreport` in the `query` folder.

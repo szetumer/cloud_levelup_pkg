@@ -30,10 +30,10 @@ class TestWindows:
                 assert get_system() == "Windows"
         
         def test_config_filerun(self):
-               assert config_command.run() == "Hello, World!"
+               assert config_command.run_commandfile() == "Hello, World!"
 
         def test_have_azure_cli(self):
-               assert azurecheck_command.run() != ""
+               assert azurecheck_command.run_commandfile() != ""
 
 @pytest.mark.skipif(get_system() != "iOs", reason = "skipping iOs tests")
 class TestIos:
@@ -41,10 +41,10 @@ class TestIos:
                 assert get_system() == "iOs"
         
         def test_config_filerun(self):
-                assert config_command.run() == "Hello, World!"
+                assert config_command.run_commandfile() == "Hello, World!"
 
         def test_have_azure_cli(self):
-               assert azurecheck_command.run() != ""
+               assert azurecheck_command.run_commandfile() != ""
 
 def test_imports_are_present():
        import azure.cli

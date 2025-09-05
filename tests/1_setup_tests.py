@@ -6,13 +6,13 @@ You need to make sure you are already logged on.
 '''
 
 def test_get_subscriptions():
-    j : list = subscriptions_command.get_json()
+    j : list = subscriptions_command.get_commandfile_json()
     assert len(j) > 0
 
 def test_get_resource_groups():
-    j : list = resourcegroups_command.get_json()
+    j : list = resourcegroups_command.get_commandfile_json()
     assert len(j) > 0
 
 def test_get_storage_accounts():
-    j : list = storageaccounts_command.get_json()
+    j : list = storageaccounts_command.get_commandfile_json()
     assert len(j) > 0
