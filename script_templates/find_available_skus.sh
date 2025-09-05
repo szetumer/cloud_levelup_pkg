@@ -1,1 +1,0 @@
-az vm list-skus --resource-type virtualMachines --location SwitzerlandNorth --all --output table
