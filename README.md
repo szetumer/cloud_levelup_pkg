@@ -6,18 +6,29 @@ This is a training ground for you to learn how to use Azure services.
 In this level, you will download this program and check that you have an azure account. cd into the package file, then do the following: 
 
 ```
-.\venv\Scripts\activate <OR> source ./venv/bin/activate
+.\winvenv\Scripts\activate <OR> source ./iosvenv/bin/activate
 pytest tests\config_tests.py
 ```
 
 All tests should pass. Simple.
 
-## Level 1: Setting Up an Azure Subscription
-In this level, you will need to figure out how to configure your azure environment and set it up so that it can work for you. This will require an azure account. Get comfortable with these commands:
+## Level 1: Setting Up an Azure Subscription, Resource Group, and Some Storage
+In this level, you will
+- create a subscription
+- create a resource group
+- create a storage account
+
+You will need to figure out how to configure your azure environment and set it up so that it can work for you. Get comfortable with these commands:
 ```
-az login
-az logout
+az <login|logout>
 az ad signed-in-user show
 az account list
+az group <create|list>
+az storage account list
 ```
-After you explore these commands and get successful output, make sure that you have all required components by running `pytest tests\after_login_tests.py`. These should all pass after you are logged in.
+Don't worry about using the cli to create a resource group or a storage account. Use the webportal for that. After you explore these commands and get successful output, make sure that you have all required components by running `pytest tests\setup_tests.py`. These should all pass after you have your subscription used up. You will need to set up a resource group and a storage account, the latter associated with the former.
+- Nothing in this level should cost money.
+- Observe which features are associated with which attribute/object.
+
+## Level 2: More Storage and Understanding Costs
+NOTE: you will start to incur costs with this level! If you do not have a free account and do not want to pay anything then you should not go on to this level or subsequent levels.

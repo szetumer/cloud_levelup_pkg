@@ -48,3 +48,5 @@ class CommandFile:
 config_command = CommandFile("config.bat", "config.sh")
 azurecheck_command = CommandFile("check_azure.bat", "check_azure.sh")
 subscriptions_command = CommandFile("get_subscriptions.bat", "get_subscriptions.sh")
+resourcegroups_command = CommandFile("get_resgroups.bat", "get_resgroups.sh")
+storageaccounts_command = CommandFile("get_storageaccounts.bat", "get_storageaccounts.sh")
