@@ -71,7 +71,11 @@ class CommandFile:
     @classmethod
     def get_json(cls, *args : list[str|Path]) -> list:
         return json.loads(cls.run(*args))
-    
+
+@dataclass
+class Command:
+    @staticmethod
+    def create_
 
 
 config_command = CommandFile("config.bat", "config.sh")

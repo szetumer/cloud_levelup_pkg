@@ -33,7 +33,7 @@ Don't worry about using the cli to create a resource group or a storage account.
 ## Level 2: More Storage and Understanding Costs
 NOTE: you will start to incur costs with this level! If you do not have a free account and do not want to pay anything then you should not go on to this level or subsequent levels. We will work to keep your costs low, but explore budgeting and cost alerts. Use `pytest <tests> -rA` option to look at your answers.
 
-SECOND NOTE: cli commands are getting longer and longer. For that reason, you will store configs for these CLI commands in the my_configs folder within this folder. To create the empty configs for you to fill out, run `python refresh_configs.py`. 
+SECOND NOTE: cli commands are getting longer and longer. For that reason, you will store configs for these CLI commands in the my_configs folder within this folder. To create the empty configs for you to fill out, run `python do.py refresh_configs`. Run `python do.py --help` for info on the minimal cli.
 
 #### Creating Storage Containers
 

@@ -18,3 +18,14 @@ def get_system() -> Literal["Windows"] | Literal["iOs"] | Literal["Linux"]:
         return "iOs"
     else:
         raise NotImplementedError(f"cannot recognize system of {platform.system()} and/or {os.name}")
+
+
+create_costman_export_str : str = '''
+{
+    "billing_profile" : null,
+    "reportname" : null,
+    "storage_account_id" : null,
+    "storage_container_name" : null,
+    "storage_directory" : "CostReports"
+}
+'''
