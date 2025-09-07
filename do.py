@@ -21,10 +21,11 @@ def cli(ctx):
 @cli.command()
 def refresh_configs():
     config_folder : Path = Path(os.getcwd()) / "my_configs"
-    if len(list(config_folder.iterdir())) > 0:
+    if len(list(config_folder.iterdir())) > 1:
         print("To refresh your configs, please delete all files in my_config folder.\nThose are your configs to set up. You still need to delete the following files:")
         for p in config_folder.iterdir():
-            print(p)
+            if ".gitignore" not in str(p):
+                print(p)
         return
     refresh_costman_export_configfile(create_costman_export_configpath, create_costman_export_str)
 
