@@ -10,7 +10,7 @@ In this level, you will download this program and check that you have an azure a
 
 ```
 .\winvenv\Scripts\activate <OR> source ./iosvenv/bin/activate
-pytest tests\config_tests.py
+pytest tests\0_config_tests.py
 ```
 
 All tests should pass. Simple. If you need to debug.
@@ -58,7 +58,8 @@ SECOND NOTE: cli commands are getting longer and longer. For that reason, you wi
 
 #### Create a Storage Container
 
-- Create a storage container, after which the first test will pass. (Note, it will fail if you have multiple storage accounts and the first one doesn't have a storage container).
+- add your storage account id to the config file costman_export.json.
+- by now you should understand how the configs work. Use the Azure webportal to create a storage container and put its name in the costman_export.json.
 
 #### Create a Cost Management Export (a report piping to a storage container)
 - You will need to install the costmanagement extension for your cli. Now your second test should pass.
