@@ -36,10 +36,19 @@ Don't worry about using the cli to create a resource group or a storage account.
 #### Troubleshooting
 - make sure that you can run bash scripts or batch files for ios or windows, respectively. If you cannot due to permissions, you may run `bash ./troubleshooting/bash_file_permissions.sh` to ensure that all the `.sh` files are executable. To run bash scripts, make sure that they work with `bash <relative path to script>`.
 
-## Level 2: More Storage and Understanding Costs
+## Level 2: Understanding Billing Accounts and Billing Profiles
+
+This is a straightforward level that will check whether you understand how to find various __things__ (there's really no better word for it) in your Azure account. Note: if you're not working in your own personal account, you may or may not have access to these things. I'm not sure. Do the following:
+- Run `python do.py refresh_configs`. Run `python do.py --help` for info on the minimal cli of this program. This will import items into your my_config folder for you to fill out.
+- In the file costman_export.json, you will add the information you need to create a cost report for a billing profile.
+    - Your first test of this level should pass.
+
+
+## Level 3: More Storage and Understanding Costs
+
 NOTE: you will start to incur costs with this level! If you do not have a free account and do not want to pay anything then you should not go on to this level or subsequent levels. We will work to keep your costs low, but explore budgeting and cost alerts. Use `pytest <tests> -rA` option to look at your answers.
 
-SECOND NOTE: cli commands are getting longer and longer. For that reason, you will store configs for these CLI commands in the my_configs folder within this game. To create the empty configs for you to fill out, run `python do.py refresh_configs`. Run `python do.py --help` for info on the minimal cli of this program. Do the following, via your Azure portal:
+SECOND NOTE: cli commands are getting longer and longer. For that reason, you will store configs for these CLI commands in the my_configs folder within this game. To create the empty configs for you to fill out,  Do the following, via your Azure portal:
 
 #### Create a Storage Container
 
