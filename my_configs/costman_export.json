@@ -1,8 +1,0 @@
-
-{
-    "billing_profile" : null,
-    "reportname" : null,
-    "storage_account_id" : null,
-    "storage_container_name" : null,
-    "storage_directory" : "CostReports"
-}
