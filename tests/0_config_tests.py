@@ -1,7 +1,7 @@
 import pytest
 from pathlib import Path
 from src.cloud_levelup.parameters import rootpath, testspath, commandspath, get_system
-from src.cloud_levelup.command_files import (CommandFile, config_command, azurecheck_command,
+from src.cloud_levelup.command_files import (Command, config_command, azurecheck_command,
                                              subscriptions_command, resourcegroups_command, storageaccounts_command)
 
 @pytest.mark.parametrize(
@@ -16,10 +16,10 @@ from src.cloud_levelup.command_files import (CommandFile, config_command, azurec
         , (storageaccounts_command)
         ]
 )
-def test_files_exist(o : Path | CommandFile):
+def test_files_exist(o : Path | Command):
         if isinstance(o, Path):
                 assert o.exists()
-        elif isinstance(o, CommandFile):
+        elif isinstance(o, Command):
                 assert o.win_abspath.exists()
                 assert o.ios_abspath.exists()
 
@@ -47,6 +47,7 @@ class TestIos:
                assert azurecheck_command.run_commandfile() != ""
 
 def test_imports_are_present():
+       import click
        import azure.cli
        import pytest
        assert True

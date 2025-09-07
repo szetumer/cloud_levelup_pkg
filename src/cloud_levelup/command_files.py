@@ -8,25 +8,25 @@ from typing import ClassVar
 from src.cloud_levelup.parameters import get_system, commandspath
 
 @dataclass
-class CommandFile:
+class Command:
     win_filename : str
     ios_filename : str
     command_folderpath : ClassVar[Path] = commandspath
 
     @property
     def win_abspath(self) -> Path:
-        return CommandFile.command_folderpath / self.win_filename
+        return Command.command_folderpath / self.win_filename
 
     @property
     def ios_abspath(self) -> Path:
-        return CommandFile.command_folderpath / self.ios_filename
+        return Command.command_folderpath / self.ios_filename
 
     def run_commandfile(self, *args) -> str:
         match get_system():
             case "Windows":
-                return self.run(*[self.win_abspath, *args])
+                return self.run(True, *[self.win_abspath, *args])
             case "iOs":
-                return self.run(*[self.ios_abspath, *args])
+                return self.run(True, *[self.ios_abspath, *args])
             case "Linux":
                 raise NotImplementedError(f"cannot recognize system of {platform.system()} and/or {os.name}")
             case _:
@@ -51,7 +51,7 @@ class CommandFile:
         return l
 
     @staticmethod
-    def run(*args : list[str|Path]) -> str:
+    def run(add_bash : bool = True, *args : list[str|Path]) -> str:
         for o in args:
             assert(isinstance(o, str) or isinstance(o, Path))
         arglist = [o if isinstance(o, str) else str(o) for o in args]
@@ -59,7 +59,7 @@ class CommandFile:
             case "Windows":
                 arglist = arglist
             case "iOs":
-                arglist = ["bash", *arglist]
+                arglist = ["bash", *arglist] if add_bash else arglist
             case "Linux":
                 raise NotImplementedError(f"cannot recognize system of {platform.system()} and/or {os.name}")
             case _:
@@ -69,8 +69,14 @@ class CommandFile:
         return val
     
     @classmethod
-    def get_json(cls, *args : list[str|Path]) -> list:
-        return json.loads(cls.run(*args))
+    def get_billing_account_names(cls) -> list[str]:
+        j : list[dict] = cls.get_json(False, "az", "billing", "account", "list", "--output", "json")
+        b_account_names = [d["name"] for d in j]
+        return b_account_names
+    
+    @classmethod
+    def get_json(cls, add_bash : bool, *args : list[str|Path]) -> list:
+        return json.loads(cls.run(add_bash, *args))
 
 @dataclass
 class Config:
@@ -80,11 +86,39 @@ class Config:
             self.configs : dict[str, str] = json.loads(s)
             f.close()
 
+class GetAzure:
 
-config_command = CommandFile("config.bat", "config.sh")
-azurecheck_command = CommandFile("check_azure.bat", "check_azure.sh")
-subscriptions_command = CommandFile("get_subscriptions.bat", "get_subscriptions.sh")
-resourcegroups_command = CommandFile("get_resgroups.bat", "get_resgroups.sh")
-storageaccounts_command = CommandFile("get_storageaccounts.bat", "get_storageaccounts.sh")
-storagecontainers_command = CommandFile("get_containers.bat", "get_containers.sh")
-costmanagement_check = CommandFile("check_costmanagement.bat", "check_costmanagement.sh")
+    @staticmethod
+    def _result(*arglist) -> str:       
+        result = subprocess.run(arglist, stdout=subprocess.PIPE, text=True)
+        val : str = result.stdout[:-1] if result.stdout.__len__() > 0 and result.stdout[-1] == '\n' else result.stdout
+        return val
+    
+    @classmethod
+    def _json(cls, *arglist) -> list[dict]:
+        str_result : str = cls._result(*arglist)
+        return json.loads(str_result)
+
+    @classmethod
+    def billing_account_names(cls) -> list[str]:
+        j : list[dict] = cls._json("az", "billing", "account", "list", "--output", "json")
+        return [d["name"] for d in j]
+    
+    @classmethod
+    def billing_profiles_associated_with_account(cls, s : str):
+        j : list[dict] = cls._json("az", "billing", "profile", "list", "--account-name", s, "--output", "json")
+        return j
+    
+    @classmethod
+    def storage_accounts(cls) -> list[dict]:
+        j : list[dict] = cls._json("az", "storage", "account", "list", "--output", "json")
+        return j
+        
+
+config_command = Command("config.bat", "config.sh")
+azurecheck_command = Command("check_azure.bat", "check_azure.sh")
+subscriptions_command = Command("get_subscriptions.bat", "get_subscriptions.sh")
+resourcegroups_command = Command("get_resgroups.bat", "get_resgroups.sh")
+storageaccounts_command = Command("get_storageaccounts.bat", "get_storageaccounts.sh")
+storagecontainers_command = Command("get_containers.bat", "get_containers.sh")
+costmanagement_check = Command("check_costmanagement.bat", "check_costmanagement.sh")
