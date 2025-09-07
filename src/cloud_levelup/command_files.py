@@ -74,9 +74,7 @@ class CommandFile:
 
 @dataclass
 class Command:
-    @staticmethod
-    def create_
-
+    pass
 
 config_command = CommandFile("config.bat", "config.sh")
 azurecheck_command = CommandFile("check_azure.bat", "check_azure.sh")

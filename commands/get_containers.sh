@@ -1,0 +1,1 @@
+az storage container list --account-name $1 --output json --auth-mode login
