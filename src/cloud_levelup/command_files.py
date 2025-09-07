@@ -73,8 +73,13 @@ class CommandFile:
         return json.loads(cls.run(*args))
 
 @dataclass
-class Command:
-    pass
+class Config:
+    def __init__(self, filepath : Path) -> None:
+        with open(filepath, "r+") as f:
+            s : str = f.read()
+            self.configs : dict[str, str] = json.loads(s)
+            f.close()
+
 
 config_command = CommandFile("config.bat", "config.sh")
 azurecheck_command = CommandFile("check_azure.bat", "check_azure.sh")

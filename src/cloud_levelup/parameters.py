@@ -7,8 +7,9 @@ ROOT_PATH = os.getcwd()
 rootpath = Path(ROOT_PATH)
 testspath = rootpath / "tests"
 commandspath = rootpath / "commands"
+my_config_folderpath = rootpath / "my_configs"
 create_costman_export_configpath = rootpath / "my_configs" / "costman_export.json"
-billingexport_config_filepath = rootpath / "my_config" / "costman_export.json"
+billingexport_config_filepath = rootpath / "my_configs" / "costman_export.json"
 
 def get_system() -> Literal["Windows"] | Literal["iOs"] | Literal["Linux"]:
     if platform.system() == "Windows":
@@ -23,6 +24,7 @@ def get_system() -> Literal["Windows"] | Literal["iOs"] | Literal["Linux"]:
 
 create_costman_export_str : str = '''
 {
+    "billing_account" : null,
     "billing_profile" : null,
     "reportname" : null,
     "storage_account_id" : null,
