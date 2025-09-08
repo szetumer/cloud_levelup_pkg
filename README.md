@@ -108,8 +108,20 @@ Levels 0 through 3 were probably the most tricky. Now that you have the hang of 
 - Use `databricks clusters delete <CLUSTER-ID>` to terminate (not actually delete) your cluster.
 
 #### TROUBLESHOOTING:
-- you have to have a chargeable account to associate to a cluster.
+- you must have a chargeable account to associate to a cluster. I experienced errors when my free subscription ran out.
 - I don't know whether you __must__ run `databricks configure` before creating a cluster, but I had before/after resolution of my bugs.
 - The system will not prevent you from configuring a cluster that will never startup due to resource requirements. Make sure the number of cores you are requesting is very low, particularly if you don't want a large bill or high compute.
 
-- Add your workspace path to your `databricks_config.json` file. Use the Azure databricks webportal to find the path of your workspace. Another test should pass. Note: this test uses the databricks cli whereas the first test of your ability to create databricks workspaces used the databricks extension of the azure cli. 
+#### More about workbooks
+- `databricks workspace list <Workspace Path>` Add your workspace path to your `databricks_config.json` file and create a workbook within that workspace. Use the Azure databricks webportal to find the path of your workspace. Another test should pass. Note: this test uses the databricks cli whereas the first test of your ability to create databricks workspaces used the databricks extension of the azure cli. 
+
+- explore that cli command: what happens if you put the work-__book__ path into the cli command instead of the work-__space__ path? Does that say something about how workbooks are referenced internally?
+
+- take the following training to get some background on databricks:
+    - https://learn.microsoft.com/en-us/training/modules/explore-azure-databricks/
+    - https://learn.microsoft.com/en-us/training/modules/use-apache-spark-azure-databricks/
+    - https://learn.microsoft.com/en-us/training/modules/perform-data-analysis-azure-databricks/
+    - https://learn.microsoft.com/en-us/training/paths/data-engineer-azure-databricks/
+
+- Personally, I found it very difficult to do any of the exercises with my own account, which is a shame. However, you can accomplish many of them by downloading data from this website: https://raw.githubusercontent.com/MicrosoftLearning/mslearn-databricks/main/data/products.csv.
+    - You can't just import the data because it won't be in the DBFS. Instead, go to a workbook, then File>>Upload data to DBFS, and then select your csv. You'll get a path such as "dbfs:/FileStore/Workspace/<etc.>

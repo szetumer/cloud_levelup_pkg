@@ -23,3 +23,9 @@ def test_databricks_cluster_id_in_proper_place():
     cluster_id : str = configs.configs["cluster1_id"]
     j : list[dict] = GetAzure._json("databricks", "clusters", "list", "--output", "json")
     assert(cluster_id in [d["cluster_id"] for d in j])
+    
+def test_databricks_workspace_path_understand():
+    configs : Config = Config(databricks_config_filepath)
+    workspace_path : str = configs.configs["workspace_path"]
+    j : list[dict] = GetAzure._json("databricks", "workspace", "list", workspace_path, "--output", "json")
+    assert(len(j)>0)
