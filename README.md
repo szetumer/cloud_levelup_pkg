@@ -2,6 +2,7 @@
 This is a training ground for you to learn how to use Azure services. By completing this game you will be able to:
 
 - Manage an Azure account
+- Better understand Azure billing
 - Use the azure-cli
 - Better understand other tools such as batch and bash files
 
