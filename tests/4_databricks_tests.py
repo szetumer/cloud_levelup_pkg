@@ -5,6 +5,10 @@ def test_databricks_extension():
     result : str = GetAzure._result("az", "databricks", "-h")
     assert result != ""
 
+def test_databricks_cli():
+    result : str = GetAzure._result("databricks", "clusters", "-h")
+    assert result != ""
+
 def test_databricks_workspace_exists():
     j : list[dict] = GetAzure._json("az", "databricks", "workspace", "list", "--output", "json")
     assert(len(j) > 0)

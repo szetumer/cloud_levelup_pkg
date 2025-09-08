@@ -45,11 +45,15 @@ Don't worry about using the cli to create a resource group or a storage account.
 NOTE: This level will ask you to explore billing information. Do NOT upload this section to another computer or give to anyone else. Run `pytest tests\2_billing_tests.py -vv` to test for this level.
 
 This is a straightforward level that will check whether you understand how to find various __things__ (there's really no better word for it) in your Azure account. Note: if you're not working in your own personal account, you may or may not have access to these things. To pass tests in this level, do the following:
+
 - Run `python do.py refresh_configs`. Run `python do.py --help` for info on the minimal cli of this program. This will import items into your my_config folder for you to fill out. The first two tests should pass now.
+
 - In the file `costman_export.json` within `my_configs`, you will add the information you need to create a billing report for a billing profile.
+
     - You will need to add your billing account name to the first config. This account is the one containing the profile that you would like financial information about. If you add anything at all, another test will pass. If you add a correct billing account name, yet another test will pass. (Hint: we check `az billing account list --output json` to check your billing account `name`). Btw, you should run that cli command to determine if there is anything you would like to add to your billing account.
         - a billing account is a collection of billing profiles, billing addresses, and contact information.
         - a billing profile manages a single subscription. So when you signed up, you created a billing profile and a billing account that hosts it. It __must__ be the one associated with the billing account you entered for this level. __AGAIN__, do not post this information anywhere. Do not upload this information to github.
+
     - Add your billing profile __id__ (not a name) that you want to contain the cost management export. It must be associated with the previously added billing account. You can find this information with the `az billing profile list --account-name <your account name>` command. You should also be able to look this up with the Azure webportal. Yet another slew of tests should pass after you do this correctly. Look at the data associated with billing profiles. See what is and isn't there.
 
 This wraps up level 2! There are a few questions that I don't understand yet, but for the most part, you will have observed: one billing account per profile, one subscription per billing profile and visa versa, one subscription per resource group, one resource group per storage account, and storage containers associated with a storage account. There are tons of Azure training levels associated with these items. Take them.
@@ -83,8 +87,14 @@ For this level, you will be adding storage in your Azure webportal, and then add
 
 ## Level 4: Databricks
 
-This is more of the same. Here are your tasks:
+Levels 0 through 3 were probably the most tricky. Now that you have the hang of how this works, let's move on to more valuable services that you can do with your azure account. Here are your tasks:
+
 - Install the Azure Databricks azure-cli extension. A test should now pass.
 
-- Create an Azure Databricks workspace via the webportal. Notice that each workspace requires a ResourceGroup.
+- Install __another__ cli, the databricks-cli (not an extension). A second test should pass. (https://learn.microsoft.com/en-us/azure/databricks/dev-tools/cli/tutorial?source=recommendations)
+
+- `az databricks workspace list --output json`: Create an Azure Databricks workspace via the webportal. Notice that each workspace requires a ResourceGroup.
     - What other unique __things__ are associated to a workspace? Eg, is workspace associated with a unique storage container? What about a unique billing profile?
+    - Another test should pass.
+
+- run `databricks configure`. Make sure your auth token is not stored in a public space.
