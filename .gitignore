@@ -1,5 +1,6 @@
-__pycache__/
+__pycache__
 src/cloud_levelup/__pycache__
 tests/__pycache__
 my_configs/*
 .pytest_cache
+.vscode
