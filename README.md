@@ -1,11 +1,13 @@
 # Welcome to Cloud Levelup!
+
 This is a training ground for you to learn how to use Azure services. By completing this game you will be able to:
 
 - Manage an Azure account
 - Better understand Azure billing
 - Use the azure-cli
 
-## Level 0: Getting Your Testing Enviroment Set Up
+## Level 0: LevelUp Cloud Setup
+
 In this level, you will download this program and check that you have an azure account. cd into the package file, then do the following: 
 
 ```
@@ -15,7 +17,8 @@ pytest tests\0_config_tests.py
 
 All tests should pass. If they don't, check that you are in a virtual environment and consider running a troubleshooting script in the appropriate scripting language.
 
-## Level 1: Setting Up an Azure Subscription, Resource Group, and Some Storage
+## Level 1: Azure Subscription, Resource Group, and Some Storage
+
 In this level, you will need to login to Azure and do the following.
 - create a subscription
 - create a resource group
@@ -34,9 +37,10 @@ Don't worry about using the cli to create a resource group or a storage account.
 - Observe which features are associated with which attribute/object.
 
 #### Troubleshooting
+
 - make sure that you can run bash scripts or batch files for ios or windows, respectively. If you cannot due to permissions, you may run `bash ./troubleshooting/bash_file_permissions.sh` to ensure that all the `.sh` files are executable. To run bash scripts, make sure that they work with `bash <relative path to script>`.
 
-## Level 2: Understanding Billing Accounts and Billing Profiles
+## Level 2: Billing Accounts and Billing Profiles
 
 NOTE: This level will ask you to explore billing information. Do NOT upload this section to another computer or give to anyone else. Run `pytest tests\2_billing_tests.py -vv` to test for this level.
 
@@ -57,6 +61,7 @@ NOTE: you will start to incur costs with this level! If you do not have a free a
 For this level, you will be adding storage in your Azure webportal, and then adding them to your configs to ensure that you understand what goes where. The end result is a cost management export into a storage container that your created, as well as the ability to create new cost management exports via the CLI. Use `pytest tests/3_storage_tests.py -vv` for this level.
 
 #### Install the costmanagement extension for the Azure cli.
+
 - You will need to install the costmanagement extension for your cli. Now your first test should pass.
 
 #### Create a Storage Container and Add Configs
@@ -65,6 +70,8 @@ For this level, you will be adding storage in your Azure webportal, and then add
 - by now you should understand how the configs work. Use the Azure webportal to create a storage container and put its name in the costman_export.json. This will cost a little bit of money each month.
 
 #### Create a Cost Management Export (a report piping to a storage container)
+
 - Go to the cost management page in your Azure web portal. Create an export, and assign it to the storage container that your just created. Make sure to finalize the creation of the cost management export. After you do this, yet another test should pass.
     - Note - now you also have a cost management export that you can run! This will help you manage your resources to ensure that you are not spending too much money.
 - Fill out the remaining information, and make sure to name the report something other than the name of the first cost management export you created. Now you should be able to run `python do.py create_costman_export` and have it work! This script, whose template is in the `script_templates` folder, pulls from your configs to create a cost management export into a storage container via the CLI.
+- You created a cost management export associated with a __billing profile__. How would you create a cost management export associated with a resource group?
