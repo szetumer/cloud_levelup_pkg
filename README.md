@@ -97,4 +97,19 @@ Levels 0 through 3 were probably the most tricky. Now that you have the hang of 
     - What other unique __things__ are associated to a workspace? Eg, is workspace associated with a unique storage container? What about a unique billing profile?
     - Another test should pass.
 
-- run `databricks configure`. Make sure your auth token is not stored in a public space.
+- run `databricks configure`. Make sure your auth token is not stored in a public space. There is no test for this step.
+
+- `databricks clusters list --output json`: create a cluster. I would recommend you stop the cluster after a short period of time. Another test will pass.
+
+- Use the cli to get the cluster id, and put that cluster id into the `databricks_config.json` file in the `my_configs` folder. Anyther test should pass.
+
+- Activate your cluster via the Azure webportal. This could take as long as five minutes to activate. There is not test for this.
+
+- Use `databricks clusters delete <CLUSTER-ID>` to terminate (not actually delete) your cluster.
+
+#### TROUBLESHOOTING:
+- you have to have a chargeable account to associate to a cluster.
+- I don't know whether you __must__ run `databricks configure` before creating a cluster, but I had before/after resolution of my bugs.
+- The system will not prevent you from configuring a cluster that will never startup due to resource requirements. Make sure the number of cores you are requesting is very low, particularly if you don't want a large bill or high compute.
+
+- Add your workspace path to your `databricks_config.json` file. Use the Azure databricks webportal to find the path of your workspace. Another test should pass. Note: this test uses the databricks cli whereas the first test of your ability to create databricks workspaces used the databricks extension of the azure cli. 

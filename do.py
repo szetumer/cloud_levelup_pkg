@@ -1,15 +1,17 @@
 from __future__ import annotations
 import click
 from pathlib import Path
-from src.cloud_levelup.parameters import create_costman_export_configpath, create_costman_export_str, my_config_folderpath
+from src.cloud_levelup.parameters import (create_costman_export_configpath, create_costman_export_str, my_config_folderpath,
+                                          databricks_config_filepath, databricks_config_str)
 from src.cloud_levelup.command_files import Config, GetAzure, Command
 import os
 
-clearing_command_dict : dict[str, str] = {
-    "costman_export.json"   : create_costman_export_str
+refresh_config_registry : dict[str, str] = {
+    "costman_export.json"   : create_costman_export_str,
+    "databricks_config.json": databricks_config_str
 }
 
-def refresh_costman_export_configfile(p : Path, s : str) -> None:
+def _refresh_configfile(p : Path, s : str) -> None:
     with open(p, "w+") as f:
         f.write(s)
         f.close()
@@ -24,13 +26,13 @@ def cli(ctx):
 
 @cli.command()
 @click.argument('filename')
-def clear_config(filename : str):
+def refresh_config(filename : str):
     '''Clear the config file whose name you give'''
     filename_s : str = filename if ".json" in filename else filename + ".json"
+    assert(filename_s in refresh_config_registry.keys())
     p : Path = my_config_folderpath / filename_s
-    assert(p.exists())
-    fill_with : str = clearing_command_dict.get(filename, "couldn't find file text")
-    refresh_costman_export_configfile(p, fill_with)
+    fill_with : str = refresh_config_registry.get(filename, "couldn't find file text")
+    _refresh_configfile(p, fill_with)
 
 @cli.command()
 def create_costman_export():
@@ -62,8 +64,8 @@ def refresh_configs():
             if ".gitignore" not in str(p):
                 print(p)
         return
-    refresh_costman_export_configfile(create_costman_export_configpath, create_costman_export_str)
-
+    _refresh_configfile(create_costman_export_configpath, create_costman_export_str)
+    _refresh_configfile(databricks_config_filepath, databricks_config_str)
 
 if __name__ == "__main__":
     cli()

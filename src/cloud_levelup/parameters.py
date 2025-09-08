@@ -10,6 +10,7 @@ commandspath = rootpath / "commands"
 my_config_folderpath = rootpath / "my_configs"
 create_costman_export_configpath = rootpath / "my_configs" / "costman_export.json"
 billingexport_config_filepath = rootpath / "my_configs" / "costman_export.json"
+databricks_config_filepath = my_config_folderpath / "databricks_config.json"
 scripttemplate_folderpath = rootpath / "script_templates"
 
 def get_system() -> Literal["Windows"] | Literal["iOs"] | Literal["Linux"]:
@@ -31,5 +32,10 @@ create_costman_export_str : str = '''
     "storage_account_id" : null,
     "storage_container_name" : null,
     "storage_directory" : "CostReports"
-}
-'''
+}'''
+
+databricks_config_str : str = '''
+{
+    "cluster1_id"       : null,
+    "workspace_path"    : null
+}'''
