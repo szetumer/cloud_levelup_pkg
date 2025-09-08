@@ -10,6 +10,7 @@ commandspath = rootpath / "commands"
 my_config_folderpath = rootpath / "my_configs"
 create_costman_export_configpath = rootpath / "my_configs" / "costman_export.json"
 billingexport_config_filepath = rootpath / "my_configs" / "costman_export.json"
+scripttemplate_folderpath = rootpath / "script_templates"
 
 def get_system() -> Literal["Windows"] | Literal["iOs"] | Literal["Linux"]:
     if platform.system() == "Windows":

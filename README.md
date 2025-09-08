@@ -56,11 +56,13 @@ NOTE: you will start to incur costs with this level! If you do not have a free a
 
 SECOND NOTE: cli commands are getting longer and longer. For that reason, you will store configs for these CLI commands in the my_configs folder within this game. To create the empty configs for you to fill out,  Do the following, via your Azure portal:
 
-#### Create a Storage Container
+#### Create a Storage Container and Add Configs
 
 - add your storage account id to the config file costman_export.json.
-- by now you should understand how the configs work. Use the Azure webportal to create a storage container and put its name in the costman_export.json.
+- by now you should understand how the configs work. Use the Azure webportal to create a storage container and put its name in the costman_export.json. This will cost a little bit of money each month.
 
 #### Create a Cost Management Export (a report piping to a storage container)
-- You will need to install the costmanagement extension for your cli. Now your second test should pass.
-- run the file `costreport` in the `query` folder.
+- You will need to install the costmanagement extension for your cli. Now your first test should pass.
+- Go to the cost management page in your Azure web portal. Create an export, and assign it to the storage container that your just created. Make sure to finalize the creation of the cost management export. After you do this, yet another test should pass!
+    - Note - now you also have a cost management export that you can run! This will help you manage your resources to ensure that you are not spending too much money.
+- Fill out the remaining information, and make sure to name the report something else. Now you should be able to run `python do.py create_costman_export` and have it work! The script to create that export is in the script_templates folder - you can use it any time you want, either within this game or copying it into your own workspace.

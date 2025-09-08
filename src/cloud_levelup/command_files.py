@@ -1,3 +1,4 @@
+from __future__ import annotations
 import json
 import os
 import platform
@@ -5,8 +6,8 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 from typing import ClassVar
-from src.cloud_levelup.parameters import get_system, commandspath
-
+from src.cloud_levelup.parameters import get_system, commandspath, my_config_folderpath
+from src.cloud_levelup.parameters import scripttemplate_folderpath
 @dataclass
 class Command:
     win_filename : str
@@ -51,7 +52,7 @@ class Command:
         return l
 
     @staticmethod
-    def run(add_bash : bool = True, *args : list[str|Path]) -> str:
+    def run(add_bash : bool = True, *args) -> str:
         for o in args:
             assert(isinstance(o, str) or isinstance(o, Path))
         arglist = [o if isinstance(o, str) else str(o) for o in args]
@@ -64,16 +65,25 @@ class Command:
                 raise NotImplementedError(f"cannot recognize system of {platform.system()} and/or {os.name}")
             case _:
                 raise NotImplementedError(f"cannot recognize system of {platform.system()} and/or {os.name}")
+        for item in arglist:
+            print(item)
         result = subprocess.run(arglist, stdout=subprocess.PIPE, text=True)
         val : str = result.stdout[:-1] if result.stdout.__len__() > 0 and result.stdout[-1] == '\n' else result.stdout
         return val
     
     @classmethod
-    def get_billing_account_names(cls) -> list[str]:
-        j : list[dict] = cls.get_json(False, "az", "billing", "account", "list", "--output", "json")
-        b_account_names = [d["name"] for d in j]
-        return b_account_names
-    
+    def run_create_costmanagement_export_from_configfile(cls) -> str:
+        config = Config(my_config_folderpath / "costman_export.json")
+        filename : str = "create_costman_export.bat" if get_system() == "Windows" else "create_costman_export.sh"
+        result = cls.run(True, str(scripttemplate_folderpath / filename),
+                         config.configs["billing_profile"],
+                         config.configs["reportname"],
+                         config.configs["storage_account_id"],
+                         config.configs["storage_container_name"],
+                         config.configs["storage_directory"]
+                         )
+        return result
+
     @classmethod
     def get_json(cls, add_bash : bool, *args : list[str|Path]) -> list:
         return json.loads(cls.run(add_bash, *args))
@@ -105,7 +115,7 @@ class GetAzure:
         return [d["name"] for d in j]
     
     @classmethod
-    def billing_profiles_associated_with_account(cls, s : str):
+    def billing_profiles_associated_with_billingaccount_names(cls, s : str):
         j : list[dict] = cls._json("az", "billing", "profile", "list", "--account-name", s, "--output", "json")
         return j
     
@@ -113,6 +123,23 @@ class GetAzure:
     def storage_accounts(cls) -> list[dict]:
         j : list[dict] = cls._json("az", "storage", "account", "list", "--output", "json")
         return j
+    
+    @classmethod
+    def storage_containers_associated_with_storageaccount_name(cls, storage_account_name : str) -> list[dict]:
+        j : list[dict] = cls._json("az", "storage", "container", "list", "--account-name", storage_account_name, "--auth-mode", "login", "--output", "json")
+        return j
+    
+    @classmethod
+    def costmanagement_exports_associated_with_billingprofile_id(cls, billing_profile_id : str):
+        j : list[dict] = cls._json("az", "costmanagement", "export", "list", "--scope", billing_profile_id, "--output", "json")
+        return j
+    
+    @classmethod
+    def storage_account_names_associated_with_id(cls, storage_account_id : str) -> list[str]:
+        j : list[dict] = cls.storage_accounts()
+        names : list[str] = [d["name"] for d in j if d["id"] == storage_account_id]
+        assert(len(names) > 0)
+        return names
         
 
 config_command = Command("config.bat", "config.sh")

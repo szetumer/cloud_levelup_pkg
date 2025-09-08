@@ -1,15 +1,10 @@
-set BillingVariable = $1
-set ReportName = $2
-set StorageAccountId = $3
-set StorageContainerName = $4
-set StorageDirectory = $5
 
-az costmanagement export create /
---scope $BillingVariable /
---name MyUsageExport /
---storage-container $StorageContainerName ^
---storage-account-id $StorageAccountId ^
---timeframe MonthToDate ^
---storage-directory $StorageDirectory ^
---type Usage ^
+az costmanagement export create \
+--scope "$1" \
+--name "$2" \
+--storage-container "$4" \
+--storage-account-id "$3" \
+--timeframe "MonthToDate" \
+--storage-directory "$5" \
+--type Usage \
 --output json

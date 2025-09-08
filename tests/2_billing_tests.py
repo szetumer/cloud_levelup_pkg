@@ -41,18 +41,7 @@ class TestCorrectBillingAccountAndProfileInformation:
     
     def test_added_legit_billing_profile(self, config : Config):
         s : str = config.configs["billing_account"]
-        j : list[dict] = GetAzure.billing_profiles_associated_with_account(s)
+        j : list[dict] = GetAzure.billing_profiles_associated_with_billingaccount_names(s)
         ids : list[str] = [d["id"] for d in j]
         id : str = config.configs["billing_profile"]
         assert id in ids
-
-
-def test_costmanagement_exists():
-    r = costmanagement_check.run_commandfile()
-    print(r)
-    assert r != ""
-
-def test_storage_container_exists():
-    l : list = Command.get_storagecontainers_with_account()
-    print(l)
-    assert len(l) > 0
