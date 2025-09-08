@@ -75,3 +75,11 @@ For this level, you will be adding storage in your Azure webportal, and then add
     - Note - now you also have a cost management export that you can run! This will help you manage your resources to ensure that you are not spending too much money.
 - Fill out the remaining information, and make sure to name the report something other than the name of the first cost management export you created. Now you should be able to run `python do.py create_costman_export` and have it work! This script, whose template is in the `script_templates` folder, pulls from your configs to create a cost management export into a storage container via the CLI.
 - You created a cost management export associated with a __billing profile__. How would you create a cost management export associated with a resource group?
+- Run these cost management exports via the Azure webportal. The results should be ready within a day.
+
+## Level 4: Databricks
+
+This is more of the same. Here are your tasks:
+- Install the Azure Databricks azure-cli extension. A test should now pass.
+- Create an Azure Databricks workspace via the webportal. Notice that each workspace requires a ResourceGroup.
+    - What other unique __things__ are associated to a workspace? Eg, is workspace associated with a unique storage container? What about a unique billing profile?
