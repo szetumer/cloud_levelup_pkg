@@ -1,1 +1,0 @@
-az vm create --resource-group "PlatformInstallTest_group" --name FirstLinuxVm --image Ubuntu2204

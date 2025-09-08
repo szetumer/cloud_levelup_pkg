@@ -8,6 +8,8 @@ from pathlib import Path
 from typing import ClassVar
 from src.cloud_levelup.parameters import get_system, commandspath, my_config_folderpath
 from src.cloud_levelup.parameters import scripttemplate_folderpath
+
+
 @dataclass
 class Command:
     win_filename : str
@@ -99,8 +101,14 @@ class Config:
 class GetAzure:
 
     @staticmethod
-    def _result(*arglist) -> str:       
-        result = subprocess.run(arglist, stdout=subprocess.PIPE, text=True)
+    def _result(*arglist) -> str:
+        match get_system():
+            case "Windows":
+                result = subprocess.run(arglist, stdout=subprocess.PIPE, shell=True, text=True)
+            case "iOs":
+                result = subprocess.run(arglist, stdout=subprocess.PIPE, text=True)
+            case _:
+                raise NotImplementedError(f"have not implemented system for {get_system()}")
         val : str = result.stdout[:-1] if result.stdout.__len__() > 0 and result.stdout[-1] == '\n' else result.stdout
         return val
     
