@@ -85,7 +85,7 @@ For this level, you will be adding storage in your Azure webportal, and then add
 
 - Run these cost management exports via the Azure webportal. The results should be ready within a day.
 
-## Level 4: Databricks
+## Level 4: Databricks, Part 1
 
 Levels 0 through 3 were probably the most tricky. Now that you have the hang of how this works, let's move on to more valuable services that you can do with your azure account. Here are your tasks:
 
@@ -107,7 +107,7 @@ Levels 0 through 3 were probably the most tricky. Now that you have the hang of 
 
 - Use `databricks clusters delete <CLUSTER-ID>` to terminate (not actually delete) your cluster.
 
-#### TROUBLESHOOTING:
+###### TROUBLESHOOTING:
 - you must have a chargeable account to associate to a cluster. I experienced errors when my free subscription ran out.
 - I don't know whether you __must__ run `databricks configure` before creating a cluster, but I had before/after resolution of my bugs.
 - The system will not prevent you from configuring a cluster that will never startup due to resource requirements. Make sure the number of cores you are requesting is very low, particularly if you don't want a large bill or high compute.
@@ -124,4 +124,15 @@ Levels 0 through 3 were probably the most tricky. Now that you have the hang of 
     - https://learn.microsoft.com/en-us/training/paths/data-engineer-azure-databricks/
 
 - Personally, I found it very difficult to do any of the exercises with my own account, which is a shame. However, you can accomplish many of them by downloading data from this website: https://raw.githubusercontent.com/MicrosoftLearning/mslearn-databricks/main/data/products.csv.
-    - You can't just import the data because it won't be in the DBFS. Instead, go to a workbook, then File>>Upload data to DBFS, and then select your csv. You'll get a path such as "dbfs:/FileStore/Workspace/<etc.>
+    - You can't just import the data because it won't be in the DBFS. Instead, go to a workbook, then File>>Upload data to DBFS, and then select your csv. You'll get a path such as "dbfs:/FileStore/Workspace/<etc.>".
+
+- You will now need to learn about secrets and secret scopes. This is a good link: https://mainri.ca/2024/10/06/dbutils-secrets-and-secret-scopes/#:~:text=To%20create%20and%20manage%20secret%20scopes%2C%20you%20can,Key%20Vault-backed%20secret%20scope%201%3A%20Go%20to%20https%3A%2F%2F%3Cdatabricks-instance%3E%2F%23secrets%2FcreateScope.
+    - note: these are __not__ the same scopes that we used to create a financial report in level 2.
+
+#### Creating an Azure Key Vault-backed secret scope
+
+- `az keyvault list` In your azure webportal, go to the keyvault and create a keyvault. This is a place to store security keys. Another test should pass after you successfully create your keyvault.
+
+- add yourself as a "Key Vault Administrator".
+
+- `databricks secrets list-scopes`. Go to https://<databricks-instance>/#secrets/createScope. Enter the name of the secret scope, address of the scope, etc. This step was fairly tricky so far. Yet another test should pass.
