@@ -125,6 +125,21 @@ Levels 0 through 3 were probably the most tricky. Now that you have the hang of 
 
 - Personally, I found it very difficult to do any of the exercises with my own account, which is a shame. However, you can accomplish many of them by downloading data from this website: https://raw.githubusercontent.com/MicrosoftLearning/mslearn-databricks/main/data/products.csv.
     - You can't just import the data because it won't be in the DBFS. Instead, go to a workbook, then File>>Upload data to DBFS, and then select your csv. You'll get a path such as "dbfs:/FileStore/Workspace/<etc.>".
+    - Use this to check that you have correctly uploaded data:
+    
+    ```
+    spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/<address given during upload>")
+    ```
+
+- `databricks fs ls <filepath>` Add the filepath (the thing that starts with "dbfs:/") to the `databricks_config.jon` in the `dbfs_folderpath` config. If it contains a csv file, another test should pass.
+
+In this level you created a databricks cluster, workspace, and uploaded a file into the Databricks File System. Not a ton, but a good accomplishment for a single level.
+
+## Level 5: Connecting Databricks to Storage Containers
+
+Databricks are not intrinsically connected to datalakes or any other part of your Azure account. The process of connecting Azure storage to databricks is called "mounting". We will discuss how to mount storage into databricks.
+
+- Learn about RBAC (Role Based Access Controls) and Service Principals. Create a Service Principal within your Azure Account. You can think of it like 
 
 - To connect your azure storage blobs to a DBFS, you will now need to learn about secrets, secret scopes, keyvaults, keys, and RBAC (role based access control). This is a good link: https://mainri.ca/2024/10/06/dbutils-secrets-and-secret-scopes/#:~:text=To%20create%20and%20manage%20secret%20scopes%2C%20you%20can,Key%20Vault-backed%20secret%20scope%201%3A%20Go%20to%20https%3A%2F%2F%3Cdatabricks-instance%3E%2F%23secrets%2FcreateScope to introduce the concept of secrets and secret scope.
     - note: these are __not__ the same scopes that we used to create a financial report in level 2.

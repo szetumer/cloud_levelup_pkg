@@ -37,5 +37,7 @@ create_costman_export_str : str = '''
 databricks_config_str : str = '''
 {
     "cluster1_id"       : null,
-    "workspace_path"    : null
+    "workspace_path"    : null,
+    "dbfs_folderpath"   : null
+
 }'''
