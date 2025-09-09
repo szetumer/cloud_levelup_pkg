@@ -4,18 +4,23 @@ This is a training ground for you to learn how to use Azure services. By complet
 
 - Manage an Azure account
 - Better understand Azure billing
-- Use the azure-cli
+- Manage Azure storage
+- Use the azure cli
+- Use the databricks cli
+- Run a databricks workflow
 
 ## Level 0: LevelUp Cloud Setup
 
-In this level, you will download this program and check that you have an azure account. cd into the package file, then do the following: 
+In this level, you will download this program and check that you have an azure account. After cloning this github repo, cd into the package directory and start your virtual environment like so: 
 
 ```
 .\winvenv\Scripts\activate <OR> source ./iosvenv/bin/activate
 pytest tests\0_config_tests.py
 ```
 
-All tests should pass. If they don't, check that you are in a virtual environment and consider running a troubleshooting script in the appropriate scripting language. We have two virtual environments which is a bit of overkill, but it reduces the dependencies for those who don't want to deal with docker.
+All tests should pass. If they don't, check that you are in a virtual environment and consider running a troubleshooting script in the appropriate scripting language. We have two virtual environments for ios and windows, which is overkill, but it reduces the dependencies for those who don't want to deal with docker.
+
+You completed level 0, and set up your learning environment. Throughout these levels, we will use various cli commands to check that you have properly completed your task.
 
 ## Level 1: Azure Subscription, Resource Group, and Some Storage
 
@@ -24,7 +29,8 @@ In this level, you will need to login to Azure and do the following.
 - create a resource group
 - create a storage account
 - download the azure-cli on your working computer
-- practice the following commands, which should return non-error states:
+
+To accomplish these 
 
 ```
 az <login|logout>
@@ -33,9 +39,13 @@ az account list
 az group <create|list>
 az storage account list
 ```
-Don't worry about using the cli to create a resource group or a storage account. Use the webportal for that. Use the cli for now to probe things in your account. After you explore these commands and get successful output, make sure that you have all required components by running `pytest tests\1_setup_tests.py`. These should all pass after you have your subscription used up. You will need to set up a resource group and a storage account, the latter associated with the former.
+Don't worry about using the cli to create a resource group or a storage account. Use the webportal for that. Use the cli for now to probe for the state of your account. After you explore these commands and get successful output, make sure that you have all required components by running `pytest tests\1_setup_tests.py`. These should all pass after you have your subscription used up. You will need to set up a resource group and a storage account, the latter associated with the former.
 - Nothing in this level should cost money.
-- Observe which features are associated with which attribute/object.
+- Observe which features are associated with which attribute/object within your Azure account by using the above cli commands.
+
+#### Notes:
+
+A storage account associates storage containers with a resource group and, therefore, a billing profile. It allows Microsoft to charge you for specific storage.
 
 #### Troubleshooting
 
@@ -43,15 +53,15 @@ Don't worry about using the cli to create a resource group or a storage account.
 
 ## Level 2: Billing Accounts and Billing Profiles
 
-NOTE: This level will ask you to explore billing information. Do NOT upload this section to another computer or give to anyone else. Run `pytest tests\2_billing_tests.py -vv` to test for this level.
+This level will ask you to explore billing information. Do NOT upload this section to another computer or give to anyone else. Run `pytest tests\2_billing_tests.py -vv` to test for this level. This is a straightforward level that will check whether you understand how to find various __things__ (there's really no better word for it) in your Azure account. Note: if you're not working in your own personal account, you may or may not have access to these parts of an Azure account.
 
-This is a straightforward level that will check whether you understand how to find various __things__ (there's really no better word for it) in your Azure account. Note: if you're not working in your own personal account, you may or may not have access to these things. To pass tests in this level, do the following:
+To pass tests in this level, do the following:
 
-- Run `python do.py refresh_configs`. Run `python do.py --help` for info on the minimal cli of this program. This will import items into your my_config folder for you to fill out. The first two tests should pass now.
+- Run `python do.py refresh_configs`. Run `python do.py --help` for info on the minimal cli of the levelup cloud game. This will import files into your `my_configs` folder for you to fill out. The first two tests should pass now.
 
 - In the file `costman_export.json` within `my_configs`, you will add the information you need to create a billing report for a billing profile.
 
-    - You will need to add your billing account name to the first config. This account is the one containing the profile that you would like financial information about. If you add anything at all, another test will pass. If you add a correct billing account name, yet another test will pass. (Hint: we check `az billing account list --output json` to check your billing account `name`). Btw, you should run that cli command to determine if there is anything you would like to add to your billing account.
+    - You will need to add your billing account name to the first config. This billing account is the one containing the profile that you would like financial information about. If you add anything at all, another test will pass. If you add a correct billing account name, yet another test will pass. (Hint: we check `az billing account list --output json` to check your billing account `name`).
         - a billing account is a collection of billing profiles, billing addresses, and contact information.
         - a billing profile manages a single subscription. So when you signed up, you created a billing profile and a billing account that hosts it. It __must__ be the one associated with the billing account you entered for this level. __AGAIN__, do not post this information anywhere. Do not upload this information to github.
 
@@ -61,9 +71,9 @@ This wraps up level 2! You will have observed: one billing account per profile, 
 
 ## Level 3: More Storage and Understanding Costs
 
-NOTE: you will start to incur costs with this level! If you do not have a free account and do not want to pay anything then you should not go on to this level or subsequent levels. We will work to keep your costs low, but you should probably set up cost alerts.
+NOTE: you will start to incur costs with this level! If you do not have a free account and do not want to pay anything then you should not go on to this level or subsequent levels. We will work to keep your costs low, but you should probably set up cost alerts as well.
 
-For this level, you will be adding storage in your Azure webportal, and then adding them to your configs to ensure that you understand what goes where. The end result is a cost management export into a storage container that your created, as well as the ability to create new cost management exports via the CLI. Use `pytest tests/3_storage_tests.py -vv` for this level.
+For this level, you will be adding storage information to your Resource Group. The end result is a cost management export into a storage container that your created, as well as the ability to create new cost management exports via the CLI. Use `pytest tests/3_storage_tests.py -vv` for this level.
 
 #### Install the costmanagement extension for the Azure cli.
 
@@ -71,95 +81,22 @@ For this level, you will be adding storage in your Azure webportal, and then add
 
 #### Create a Storage Container and Add Configs
 
-- add your storage account id to the config file costman_export.json.
+- add your storage account id to the config file costman_export.json. This will pass additional tests.
 
-- by now you should understand how the configs work. Use the Azure webportal to create a storage container and put its name in the costman_export.json. This will cost a little bit of money each month.
+- Use the Azure webportal to create a storage container and put its name in the costman_export.json. This will cost a little bit of money each month. More tests, more passing.
 
 #### Create a Cost Management Export (a report piping to a storage container)
 
 - Go to the cost management page in your Azure web portal. Create an export, and assign it to the storage container that your just created. Make sure to finalize the creation of the cost management export. After you do this, yet another test should pass.
     - Note - now you also have a cost management export that you can run! This will help you manage your resources to ensure that you are not spending too much money.
 
-- Fill out the remaining information, and make sure to name the report something other than the name of the first cost management export you created. Now you should be able to run `python do.py create_costman_export` and have it work! This script, whose template is in the `script_templates` folder, pulls from your configs to create a cost management export into a storage container via the CLI.
+- Fill out the remaining information, and make sure to name the report something other than the name of the first cost management export you created. Now you should be able to run `python do.py create_costman_export` and the azure cli will create a second cost management report right from your terminal! This script, whose template is in the `script_templates` folder, pulls from your configs to create a cost management export into a storage container via the CLI.
 
 - You created a cost management export associated with a __billing profile__. How would you create a cost management export associated with a resource group?
 
 - Run these cost management exports via the Azure webportal. The results should be ready within a day.
 
-## Level 4: Databricks, Part 1
+#### Summary of Levels 2 and 3
+In these levels, you learned a little bit about budgeting in Azure and a little bit about storage. You will learn a lot more, but from here on out, the levels don't need to be taken sequentially. Open the readme file contained in a folder whose levels you would like to complete using your favorite code editor. Follow the instructions and use the `pytest tests/<level number>_<levelname>_tests.py [-rA -rX and/or -vv]` to track your progress. Levels are as follows:
 
-Levels 0 through 3 were probably the most tricky. Now that you have the hang of how this works, let's move on to more valuable services that you can do with your azure account. Here are your tasks:
-
-- Install the Azure Databricks azure-cli extension. A test should now pass.
-
-- Install __another__ cli, the databricks-cli (not an extension). A second test should pass. (https://learn.microsoft.com/en-us/azure/databricks/dev-tools/cli/tutorial?source=recommendations)
-
-- `az databricks workspace list --output json`: Create an Azure Databricks workspace via the webportal. Notice that each workspace requires a ResourceGroup.
-    - What other unique __things__ are associated to a workspace? Eg, is workspace associated with a unique storage container? What about a unique billing profile?
-    - Another test should pass.
-
-- run `databricks configure`. Make sure your auth token is not stored in a public space. There is no test for this step.
-
-- `databricks clusters list --output json`: create a cluster. I would recommend you stop the cluster after a short period of time. Another test will pass.
-
-- Use the cli to get the cluster id, and put that cluster id into the `databricks_config.json` file in the `my_configs` folder. Anyther test should pass.
-
-- `databricks clusters list --output json` When you create a cluster, the defaults will be fairly expensive, likely over $2 DBU/h. For learning, this can quickly rack up costs. To reduce costs, do the following:
-    - set the autotermination_minutes to something under 30. A test will pass for this.
-    - set the Node Type to single node, passing another test.
-    - Choose a virtual machine from the D2 series, passing another test. If you can get something from the B series, apparently this is cheaper and your test should still pass, but it wasn't offered in my region.
-    - I would recommend turning off photon acceleration. I couldn't figure out how to test for this.
-    - Check the right hand corner of your compute configure screen, and you should see a price under $1 DBU/h. I got mine to ~ $0.50 DBU/h, but that was as low as I could muster. This is not tested.
-
-###### TROUBLESHOOTING:
-1) You must have a chargeable account to associate to a cluster. I experienced errors when my free subscription ran out.
-2) Consider running `databricks configure`.
-3) The system will not prevent you from configuring a cluster that will never startup due to resource requirements, eg min cores out of range.
-
-- Take a moment to pat yourself on the back. Using these resources is not easy and you've taken a strong step towards minimizing costs of your Azure learning experience. You may use these tests in your projects however you like to minimize costs. They are marked under the test class `TestClusterIsNotExpensive` in the `4_databricks1_tests.py` file.
-
-- Activate your cluster via the Azure webportal. This could take as long as five minutes to activate. There is not test for this.
-
-- Use `databricks clusters delete <CLUSTER-ID>` to terminate (not actually delete) your cluster. If your cluster is terminated, another test will pass.
-
-#### More about workbooks
-- `databricks workspace list <Workspace Path>` Add your workspace path to your `databricks_config.json` file and create a workbook within that workspace. Use the Azure databricks webportal to find the path of your workspace. Another test should pass. Note: this test uses the databricks cli whereas the first test of your ability to create databricks workspaces used the databricks extension of the azure cli. 
-
-- Explore that cli command: what happens if you put the work-__book__ path into the cli command instead of the work-__space__ path? Does that say something about how workbooks are referenced internally?
-
-- Take the following training to get some background on databricks:
-    - https://learn.microsoft.com/en-us/training/modules/explore-azure-databricks/
-    - https://learn.microsoft.com/en-us/training/modules/use-apache-spark-azure-databricks/
-    - https://learn.microsoft.com/en-us/training/modules/perform-data-analysis-azure-databricks/
-    - https://learn.microsoft.com/en-us/training/paths/data-engineer-azure-databricks/
-
-- Personally, I found it very difficult to do any of the exercises with my own account, which is a shame. However, you can accomplish many of them with a small amount of sample data by downloading data from this website: https://raw.githubusercontent.com/MicrosoftLearning/mslearn-databricks/main/data/products.csv.
-    - You can't just import the data because it won't be in the DBFS. Instead, go to a workbook, then File>>Upload data to DBFS, and then select your csv. You'll get a path such as "dbfs:/FileStore/Workspace/<etc.>".
-    - Use this to check that you have correctly uploaded data:
-    
-    ```
-    spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/<address given during upload>")
-    ```
-
-- `databricks fs ls <filepath>` Add the filepath (the thing that starts with "dbfs:/") to the `databricks_config.jon` in the `dbfs_folderpath` config. If it contains a csv file, another test should pass.
-
-#### Summary for Level 4
-
-In this level you created a databricks cluster, workspace, and uploaded a file into the Databricks File System. You also learned how to probe for state via the azure cli and the databricks cli, which is great. You took some Microsoft training and you configured your databrick compute to reduce costs. Good job.
-
-## Level 5: Connecting Databricks to Storage Containers
-
-Databricks are not intrinsically connected to datalakes or any other part of your Azure account. The process of connecting Azure storage to databricks is called "mounting". We will discuss how to mount storage containers into databricks.
-
-- Learn about RBAC (Role Based Access Controls) and Service Principals. Create a Service Principal within your Azure Account. You can think of it like the profile of an application.
-
-- To connect your azure storage blobs to a DBFS, you will now need to learn about secrets, secret scopes, keyvaults, keys, and RBAC (role based access control). This is a good link: https://mainri.ca/2024/10/06/dbutils-secrets-and-secret-scopes/#:~:text=To%20create%20and%20manage%20secret%20scopes%2C%20you%20can,Key%20Vault-backed%20secret%20scope%201%3A%20Go%20to%20https%3A%2F%2F%3Cdatabricks-instance%3E%2F%23secrets%2FcreateScope to introduce the concept of secrets and secret scope.
-    - note: these are __not__ the same scopes that we used to create a financial report in level 2.
-
-#### Creating an Azure Key Vault-backed secret scope
-
-- `az keyvault list` In your azure webportal, go to the keyvault and create a keyvault. This is a place to store security keys. Another test should pass after you successfully create your keyvault.
-
-- add yourself as a "Key Vault Administrator". Create a key in the keyvault.
-
-- `databricks secrets list-scopes`. Go to https://<databricks-instance>/#secrets/createScope. Enter the name of the secret scope, address of the scope, etc. This step was fairly tricky so far. Yet another test should pass when you get a secret scope set up.
+#### Databricks - Levels 4, 5

@@ -38,6 +38,6 @@ databricks_config_str : str = '''
 {
     "cluster1_id"       : null,
     "workspace_path"    : null,
-    "dbfs_folderpath"   : null
-
+    "dbfs_folderpath"   : null,
+    "databricks_application_display_name" : null
 }'''
