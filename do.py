@@ -4,6 +4,7 @@ from pathlib import Path
 from src.cloud_levelup.parameters import (create_costman_export_configpath, create_costman_export_str, my_config_folderpath,
                                           databricks_config_filepath, databricks_config_str)
 from src.cloud_levelup.command_files import Config, GetAzure, Command
+from src.cloud_levelup.azure_shutdown import azure_shutdown
 import os
 
 refresh_config_registry : dict[str, str] = {
@@ -67,5 +68,10 @@ def refresh_configs():
     _refresh_configfile(create_costman_export_configpath, create_costman_export_str)
     _refresh_configfile(databricks_config_filepath, databricks_config_str)
 
+@cli.command()
+def shutdown():
+    '''Calling Azure Shutdown'''
+    azure_shutdown()
+    
 if __name__ == "__main__":
     cli()
