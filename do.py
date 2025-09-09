@@ -31,7 +31,7 @@ def refresh_config(filename : str):
     filename_s : str = filename if ".json" in filename else filename + ".json"
     assert(filename_s in refresh_config_registry.keys())
     p : Path = my_config_folderpath / filename_s
-    fill_with : str = refresh_config_registry.get(filename, "couldn't find file text")
+    fill_with : str = refresh_config_registry.get(filename_s, "couldn't find file text")
     _refresh_configfile(p, fill_with)
 
 @cli.command()
