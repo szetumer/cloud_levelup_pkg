@@ -72,19 +72,85 @@ Bonus Content: because you installed the databricks extension and databricks cli
 
 ## Level 5: Connecting Databricks to Storage Containers
 
-Databricks are not intrinsically connected to datalakes or any other part of your Azure account. The process of connecting Azure storage to databricks is called "mounting". We will discuss how to mount storage containers into databricks.
+Note: I found this to be one of the most complicated steps in setting up my Azure account. Part of the problem is that there are many different possible workflows to connecting databricks and azure storage, so AI models get mixed up as to which one to do. If you have premium-tier, Microsoft recommends that you use Unity Catalog to manage connections between storage accounts and databricks. If you don't, read on.
 
-- Learn about RBAC (Role Based Access Controls) and Service Principals. You can take Microsoft training for these subjects. There are no points associated with this activity though.
+FOOTGUN1: Your storage account must be ADLS Gen2 with hierarchical namespaces, etc. if it's not, then you will have errors with credentialing unless you do even more steps. If your prior account was not Gen2, create a second one. And follow those steps. Also, make sure that you have hierarchical namesspaces available, soft delete NOT available.
 
-- Create a Service Principal, which is like a user/security profile for an application, within your Azure account. As of this writing, this is available through the Azure Entra ID portal >> Manage >> App registration. This creates an application object.
+FOOTGUN2: You have to have some content in your stoage container.
 
-- To connect your azure storage blobs to a DBFS, you will now need to learn about secrets, secret scopes, keyvaults, keys, and RBAC (role based access control). This is a good link: [Understanding Secrets](https://mainri.ca/2024/10/06/dbutils-secrets-and-secret-scopes/#:~:text=To%20create%20and%20manage%20secret%20scopes%2C%20you%20can,Key%20Vault-backed%20secret%20scope%201%3A%20Go%20to%20https%3A%2F%2F%3Cdatabricks-instance%3E%2F%23secrets%2FcreateScope).
-    - note: these are __not__ the same scopes that we used to create a financial report in level 2.
+TL;DR, Databricks are not intrinsically connected to datalakes or any other part of your Azure account. The process of connecting Azure storage to databricks is called "mounting" if you're doing it without Unity Catalog. If you have standard tier, you can't use Unity, so we're going to discuss how to do this for standard tier, although instructions for premium tier and tests related to that workflow can be found at the end of this level.
 
-#### Creating an Azure Key Vault-backed secret scope
+- Your first step is to learn about about RBAC (Role Based Access Controls) and Service Principals. You can take Microsoft training for these subjects. There are no points associated with this activity though, and we will NOT be using RBAC for this mount. RBAC is recommended, but we can't associate service principals created in Azure to databricks with standard tier either, so RBAC is out.
 
-- `az keyvault list` In your azure webportal, go to the keyvault and create a keyvault. This is a place to store security keys. Another test should pass after you successfully create your keyvault.
+Basically, we're going to do the following:
+    - Create a "dummy" service principal to get a client-id, client-secret, and tenant-id.
+    - Create an Azure Key Vault and put those data into the keyvault.
+    - Create a Key-Vault Backed Secret Scope in Databricks, giving databricks access to our keyvault.
+    - (during runtime:) have databricks pull the keys from the keyvault and use those to communicate with the storage account.
+    
+#### Registering an Application, Creating a Service Principal for the Application, and Generating an Application Secret (TestServicePrincipalSetup)
 
-- add yourself as a "Key Vault Administrator". Create a key in the keyvault.
+We're doing this via the App registrations page in your Azure portal. This step creates an identity which can interface with services as if it were a user. We can assign roles to it to authorize it to interact with certain services.
 
-- `databricks secrets list-scopes`. Go to https://<databricks-instance>/#secrets/createScope. Enter the name of the secret scope, address of the scope, etc. This step was fairly tricky so far. Yet another test should pass when you get a secret scope set up.
+- (+1 Point: `az ad sp list --display-name <databricks_config.json:"databricks_application_display_name">`) Register an application with Entra ID. As of this writing, this is available through the Azure Entra ID portal >> Manage >> App registration. This creates an application object. Put the display name in the databricks_config.json file to get your point.
+
+- (+2 Point: `az role assignment list --scope <your storage account id>`) Go to your storage account and give your Service Principal access to your storage account as a Storage Blob Data Contributor.
+
+- (+1 Point: `az ad app credential list --id <id of your __app__ associated with your service principal>`) In the same portal, for the same application, go to certificates and secrets and create a secret. __You must document the actual value of the secret because it will never be displayed again!!!__ We'll give you a point if you have a secret associated with the service principal.
+
+### Standard Tier Account
+
+#### Keyvault Creation, Adding Secrets for client-id, tenant-id, and client-secret (TestKeyvaultSetup)
+
+In this step, you need to create a keyvault that securely stores the information that databricks needs to access your storage blobs.
+
+- (+2 Point: `az keyvault list`) In your azure webportal, go to the keyvault and create a keyvault. This is a place to store security keys. Now add the keyvault Id to the config file.
+
+- (Points not added yet) Add three secrets to the key vault, as follows:
+
+    - secret 1: call it "client-id" and give it a value of the application id (AKA client ID) of your databricks registered app (you can find that in the same window you created your service principal)
+    - secret 2: call it "tenant-id" and give it the value of the tenant id in the same place.
+    - secret 3: call it "client-secret" and __put the value of the secret you just generated and wrote down__.
+
+- (+1 Point: `az role assignment list --scope <yourkeyvault id>`) Give your Databricks workspace a role that can get and list on the key vault secrets using IAM (try Key Vault Secret User). Under members, it should be listed as a "Databricks Workspace Managed Identity" or a "workspace system-assigned managed identity".
+
+#### Creating an Azure Key Vault-backed secret scope in databricks
+
+- (+2 Point: `az role assignment list --scope <keyvault id>`) Put your keyvault Id in the config file after you use IAM to give your service principal (your applications user-profile) the role of a Secret User (or something like that) in your keyvault. One point for adding the correct keyvault to the config file, and one point for giving the application the correct role.
+
+- (+2 Points: `databricks secrets list-scopes`). Go to https://<databricks-instance>/#secrets/createScope. Enter the name of the secret scope (anything you want), select manage principal for all workspace users, the DNS name of your keyvault, and the Resource ID of your keyvault. You get a point if you can create a scope, and another point if it has a type of Azure Keyvault
+
+#### Checking that your databricks account can get access to the key-vault secrets.
+
+Run this in a workspace:
+
+```
+tenant_id = dbutils.secrets.get(scope=scope, key="tenant-id")
+client_secret = dbutils.secrets.get(scope="szlearningsecretscope2", key="client-secret")
+client_id = dbutils.secrets.get(scope="szlearningsecretscope2", key="client-id")
+```
+If that doesn't error, then your databricks workspace has access to your keyvault secrets.
+
+\>\> COMPLETE INSTRUCTIONS FOR MOUNTING STORAGE INTO DATABRICKS <<
+
+### Premium Tier Account
+
+-(+3 Point: `az role assignment list --assignee <app ID> --scope <storage account id>`) Go to your storage account and give your application the role of "Storage Blob Data Contributor". Make sure to put the storage account name into your `databricks_config.json` file.
+
+- Before we do anything more, you will now need to learn about secrets, secret scopes, keyvaults, keys, and RBAC (role based access control). This is a good link: [Understanding Secrets](https://mainri.ca/2024/10/06/dbutils-secrets-and-secret-scopes/#:~:text=To%20create%20and%20manage%20secret%20scopes%2C%20you%20can,Key%20Vault-backed%20secret%20scope%201%3A%20Go%20to%20https%3A%2F%2F%3Cdatabricks-instance%3E%2F%23secrets%2FcreateScope). We are going to add a secret to our application profile/service principal, and then give that secret to our databricks profile/application. This will allow databricks to connect to our containers.
+
+- Back in your App Registration portal, go to Certificates & Secrets for the app you're currently working with. Perform the following steps:
+    - Create a new client secret.
+    - Record the Tenant ID
+    - Record the Client ID
+    - Record the Client Secret
+There are no points for this step. Don't put these things in your configs.
+
+- (Limited to Premium) Run the command `databricks secrets create-scope <db_application_scopename>`, where the last value is the name of a scope you will put in your `databricks_config.json` file.
+- Run the commands
+```
+databricks secrets put --scope <db_application_scopename> --key client-id, paste in: <client ID>
+databricks secrets put --scope <db_application_scopename> --key client-secret, paste in: <client-secret>
+databricks secrets put --scope <db_application_scopename> --key tenant-id, paste in: <tenant ID>
+```
+ ## \>\>REMAINING INSTRUCTIONS NOT AVAILABLE. TOO TIRED TO PUT THEM HERE. SEE STANDARD TIER WORKFLOW<<

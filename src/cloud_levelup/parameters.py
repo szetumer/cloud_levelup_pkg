@@ -39,5 +39,8 @@ databricks_config_str : str = '''
     "cluster1_id"       : null,
     "workspace_path"    : null,
     "dbfs_folderpath"   : null,
-    "databricks_application_display_name" : null
+    "keyvault_id"       : null,
+    "databricks_application_display_name" : null,
+    "storage_account_tomount_name" : null,
+    "db_application_scopename" : null
 }'''
