@@ -57,7 +57,7 @@ This is a straightforward level that will check whether you understand how to fi
 
     - Add your billing profile __id__ (not a name) that you want to contain the cost management export. It must be associated with the previously added billing account. You can find this information with the `az billing profile list --account-name <your account name>` command. You should also be able to look this up with the Azure webportal. Yet another slew of tests should pass after you do this correctly. Look at the data associated with billing profiles. See what is and isn't there.
 
-This wraps up level 2! There are a few questions that I don't understand yet, but for the most part, you will have observed: one billing account per profile, one subscription per billing profile and visa versa, one subscription per resource group, one resource group per storage account, and storage containers associated with a storage account. There are tons of Azure training levels associated with these items. Take them.
+This wraps up level 2! You will have observed: one billing account per profile, one subscription per billing profile and visa versa, one subscription per resource group, one resource group per storage account, and storage containers associated with a storage account. There are tons of Azure training levels associated with these items. Take them.
 
 ## Level 3: More Storage and Understanding Costs
 
@@ -104,17 +104,17 @@ Levels 0 through 3 were probably the most tricky. Now that you have the hang of 
 
 - Use the cli to get the cluster id, and put that cluster id into the `databricks_config.json` file in the `my_configs` folder. Anyther test should pass.
 
-###### TROUBLESHOOTING:
-- you must have a chargeable account to associate to a cluster. I experienced errors when my free subscription ran out.
-- I don't know whether you __must__ run `databricks configure` before creating a cluster, but I had before/after resolution of my bugs.
-- The system will not prevent you from configuring a cluster that will never startup due to resource requirements, eg min cores out of range.
-
 - `databricks clusters list --output json` When you create a cluster, the defaults will be fairly expensive, likely over $2 DBU/h. For learning, this can quickly rack up costs. To reduce costs, do the following:
     - set the autotermination_minutes to something under 30. A test will pass for this.
     - set the Node Type to single node, passing another test.
     - Choose a virtual machine from the D2 series, passing another test. If you can get something from the B series, apparently this is cheaper and your test should still pass, but it wasn't offered in my region.
     - I would recommend turning off photon acceleration. I couldn't figure out how to test for this.
     - Check the right hand corner of your compute configure screen, and you should see a price under $1 DBU/h. I got mine to ~ $0.50 DBU/h, but that was as low as I could muster. This is not tested.
+
+###### TROUBLESHOOTING:
+1) You must have a chargeable account to associate to a cluster. I experienced errors when my free subscription ran out.
+2) Consider running `databricks configure`.
+3) The system will not prevent you from configuring a cluster that will never startup due to resource requirements, eg min cores out of range.
 
 - Take a moment to pat yourself on the back. Using these resources is not easy and you've taken a strong step towards minimizing costs of your Azure learning experience. You may use these tests in your projects however you like to minimize costs. They are marked under the test class `TestClusterIsNotExpensive` in the `4_databricks1_tests.py` file.
 
