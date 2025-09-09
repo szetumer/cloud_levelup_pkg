@@ -139,7 +139,7 @@ In this level you created a databricks cluster, workspace, and uploaded a file i
 
 Databricks are not intrinsically connected to datalakes or any other part of your Azure account. The process of connecting Azure storage to databricks is called "mounting". We will discuss how to mount storage into databricks.
 
-- Learn about RBAC (Role Based Access Controls) and Service Principals. Create a Service Principal within your Azure Account. You can think of it like 
+- Learn about RBAC (Role Based Access Controls) and Service Principals. Create a Service Principal within your Azure Account. You can think of it like the profile of an application.
 
 - To connect your azure storage blobs to a DBFS, you will now need to learn about secrets, secret scopes, keyvaults, keys, and RBAC (role based access control). This is a good link: https://mainri.ca/2024/10/06/dbutils-secrets-and-secret-scopes/#:~:text=To%20create%20and%20manage%20secret%20scopes%2C%20you%20can,Key%20Vault-backed%20secret%20scope%201%3A%20Go%20to%20https%3A%2F%2F%3Cdatabricks-instance%3E%2F%23secrets%2FcreateScope to introduce the concept of secrets and secret scope.
     - note: these are __not__ the same scopes that we used to create a financial report in level 2.
