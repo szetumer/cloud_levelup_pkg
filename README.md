@@ -60,11 +60,11 @@ Whew! That was an annoying level. Setting things up is always a pain. This level
 
 To pass tests in this level, and get all the points, do the following:
 
-- (+2 Points) Run `python do.py refresh_configs`. This will import files into your `my_configs` folder for you to fill out. Run `python do.py --help` for info on the minimal cli of the Cloud Levelup game.
+- __(+2 Points)__ Run `python do.py refresh_configs`. This will import files into your `my_configs` folder for you to fill out. Run `python do.py --help` for info on the minimal cli of the Cloud Levelup game.
 
 - In the file `costman_export.json` within `my_configs`, you will add the information you need to create a billing report for a billing profile.
 
-    - (+2 Points) You will need to add your billing account name to the first config. This billing account is the one containing the profile that you would like financial information about. If you add anything at all, another test will pass. If you add a correct billing account name. (Hint: we check `az billing account list --output json` to check your billing account `name`).
+    - __(+2 Points)__ You will need to add your billing account name to the first config. This billing account is the one containing the profile that you would like financial information about. If you add anything at all, another test will pass. If you add a correct billing account name. (Hint: we check `az billing account list --output json` to check your billing account `name`).
         - a billing account is a collection of billing profiles, billing addresses, and contact information.
         - a billing profile manages a single subscription. So when you signed up, you created a billing profile and a billing account that hosts it. It __must__ be the one associated with the billing account you entered for this level. __AGAIN__, do not post this information anywhere. Do not upload this information to github.
 

@@ -8,20 +8,20 @@ Let's levelup!
 
 Levels 0 through 3 were a little rocky, I'm not going to lie. Now that you have the hang of how this works, let's move on to more valuable services that you can do with your azure account. Here are your tasks:
 
-- (+1 Point) Install the Azure Databricks azure-cli extension.
+- __(+1 Point)__ Install the Azure Databricks azure-cli extension.
 
-- (+1 Point) Install __another__ cli, the databricks-cli (not an extension). (https://learn.microsoft.com/en-us/azure/databricks/dev-tools/cli/tutorial?source=recommendations)
+- __(+1 Point)__ Install __another__ cli, the databricks-cli (not an extension). (https://learn.microsoft.com/en-us/azure/databricks/dev-tools/cli/tutorial?source=recommendations)
 
-- (+1 Point : `az databricks workspace list --output json`) Create an Azure Databricks workspace via the webportal. Notice that each workspace requires a ResourceGroup.
+- __(+1 Point : `az databricks workspace list --output json`)__ Create an Azure Databricks workspace via the webportal. Notice that each workspace requires a ResourceGroup.
     - What other unique __things__ are associated to a workspace? Eg, is workspace associated with a unique storage container? What about a unique billing profile?
 
 - run `databricks configure`. Make sure your auth token is not stored in a public space. There is no test for this step.
 
-- (+1 Point: `databricks clusters list --output json`) Create a cluster. This is a profile of a set of computers that will do work for you when you want them to. Running them costs money. Terminating their runs does not.
+- __(+1 Point: `databricks clusters list --output json`)__ Create a cluster. This is a profile of a set of computers that will do work for you when you want them to. Running them costs money. Terminating their runs does not.
 
-- (+1 Point) Use the cli to get the cluster id, and put that cluster id into the `databricks_config.json` file in the `my_configs` folder.
+- __(+1 Point)__ Use the cli to get the cluster id, and put that cluster id into the `databricks_config.json` file in the `my_configs` folder.
 
-- (+3 or so Points : `databricks clusters list --output json`) When you create a cluster, the defaults will be fairly expensive, likely over $2 DBU/h. For learning, this can quickly rack up costs. To reduce costs, do the following:
+- __(+3 or so Points : `databricks clusters list --output json`)__ When you create a cluster, the defaults will be fairly expensive, likely over $2 DBU/h. For learning, this can quickly rack up costs. To reduce costs, do the following:
     - set the autotermination_minutes to something under 30. A test will pass for this.
     - set the Node Type to single node, passing another test.
     - Choose a virtual machine from the D2 series, passing another test. If you can get something from the B series, apparently this is cheaper and your test should still pass, but it wasn't offered in my region.
@@ -35,7 +35,7 @@ Levels 0 through 3 were a little rocky, I'm not going to lie. Now that you have 
 
 - Activate your cluster via the Azure webportal. This could take as long as five minutes to activate. There is not test for this.
 
-- (+1 Point) Use `databricks clusters delete <CLUSTER-ID>` to terminate (not actually delete) your cluster. If your cluster is terminated.
+- __(+1 Point)__ Use `databricks clusters delete <CLUSTER-ID>` to terminate (not actually delete) your cluster. If your cluster is terminated.
 
 ______
 
@@ -44,7 +44,7 @@ _____
 
 #### More about workbooks
 
-- (+1 Point :`databricks workspace list <Workspace Path>`) Add your workspace path to your `databricks_config.json` file and create a workbook within that workspace. Use the Azure databricks webportal to find the path of your workspace. Another test should pass. Note: this test uses the databricks cli whereas the first test of your ability to create databricks workspaces used the databricks extension of the azure cli. 
+- __(+1 Point :`databricks workspace list <Workspace Path>`)__ Add your workspace path to your `databricks_config.json` file in the Cloud Levelup project and create a workbook within that workspace via your webportal. Use the Azure databricks webportal to find the path of your workspace. Another test should pass. Note: this test uses the databricks cli whereas the first test of your ability to create databricks workspaces used the databricks extension of the azure cli. 
 
 - Explore that cli command: what happens if you put the work-__book__ path into the cli command instead of the work-__space__ path? Does that say something about how workbooks are referenced internally?
 
@@ -54,7 +54,7 @@ _____
     - https://learn.microsoft.com/en-us/training/modules/perform-data-analysis-azure-databricks/
     - https://learn.microsoft.com/en-us/training/paths/data-engineer-azure-databricks/
 
-Personally, I found it very difficult to do any of the exercises with my own account, which is a shame. However, you can accomplish many of them with a small amount of sample data by downloading data from this website: https://raw.githubusercontent.com/MicrosoftLearning/mslearn-databricks/main/data/products.csv. You can't just import the data because it won't be in the DBFS. Instead, go to a workbook, then File>>Upload data to DBFS, and then select your csv. You'll get a path such as "dbfs:/FileStore/Workspace/<etc.>".
+Personally, I found it very difficult to do any of the Microsoft exercises with my own account, which is a shame. However, you can accomplish many of them with a small amount of sample data by downloading data from this website: https://raw.githubusercontent.com/MicrosoftLearning/mslearn-databricks/main/data/products.csv. You can't just import the data because it won't be in the DBFS. Instead, go to a workbook, then File>>Upload data to DBFS, and then select your csv. You'll get a path such as "dbfs:/FileStore/Workspace/<etc.>".
 
 - Use this to check that you have correctly uploaded data within a cell of a workbook:
     
@@ -62,7 +62,7 @@ Personally, I found it very difficult to do any of the exercises with my own acc
     spark.read.format("csv").option("header", "true").load("dbfs:/FileStore/<address given during upload>")
     ```
 
-- (+1 Point :`databricks fs ls <filepath>`) Add the filepath (the thing that starts with "dbfs:/") to the `databricks_config.json` in the `dbfs_folderpath` config. If it contains a csv file, another test should pass.
+- __(+1 Point :`databricks fs ls <filepath>`)__ Add the folderpath (the thing that starts with "dbfs:/") to the `databricks_config.json` in the `dbfs_folderpath` config. If the folder contains a csv file, another test should pass.
 
 #### Summary for Level 4
 
@@ -72,9 +72,9 @@ Bonus Content: because you installed the databricks extension and databricks cli
 
 ## Level 5: Connecting Databricks to Storage Containers
 
-Note: I found this to be one of the more complicated steps in setting up my Azure account. Part of the problem is that there are many different possible workflows to connecting databricks and azure storage, so AI models get mixed up as to which one to do. If you have premium-tier, Microsoft recommends that you use Unity Catalog to manage connections between storage accounts and databricks. If you don't, read on.
+Note: I found this to be one of the more complicated steps in setting up my Azure account. Part of the problem is that there are many different possible workflows to connecting databricks and azure storage, so AI models get mixed up if you ask them to help. If you have premium-tier, Microsoft recommends that you use Unity Catalog to manage connections between storage accounts and databricks. If you don't, read on.
 
-FOOTGUN1: Your storage account must be ADLS Gen2 with hierarchical namespaces, etc. if it's not, then you will have errors with credentialing unless you do even more steps. If your prior account was not Gen2, create a second one. And follow those steps. Also, make sure that you have hierarchical namesspaces available, soft delete NOT available.
+FOOTGUN1: Your storage account must be ADLS Gen2 with hierarchical namespaces, etc. if it's not, then you will have errors with credentialing unless you do even more steps. If your prior account was not Gen2, create a second one. Also, make sure that you have hierarchical namesspaces available, and soft delete NOT available.
 
 FOOTGUN2: You have to have some content in your stoage container. It can be a single file, but it must be something for your databricks to interpret.
 
@@ -93,11 +93,11 @@ Instead, we're going to do the following:
 
 This step creates an identity which can interface with services as if it were a user.
 
-- (+1 Point: `az ad sp list --display-name <databricks_config.json:"databricks_application_display_name">`) Register an application with Entra ID. As of this writing, this is available through the Azure Entra ID portal >> Manage >> App registration. This creates an application object. Put the display name in the databricks_config.json file to get your point.
+- __(+1 Point: `az ad sp list --display-name <databricks_config.json:"databricks_application_display_name">`)__ Register an application with Entra ID. As of this writing, this is available through the Azure Entra ID portal >> Manage >> App registration. This creates an application object. Put the display name in the databricks_config.json file to get your point.
 
-- (+2 Point: `az role assignment list --scope <your storage account id>`) Go to your storage account and give your Service Principal access to your storage account as a Storage Blob Data Contributor.
+- __(+2 Point: `az role assignment list --scope <your storage account id>`)__ Go to your storage account and give your Service Principal access to your storage account as a Storage Blob Data Contributor.
 
-- (+1 Point: `az ad app credential list --id <AppId associated with your service principal>`) In the same portal, for the same application, go to certificates and secrets and create a secret. __You must document the actual value of the secret because it will never be displayed again!!!__ We'll give you a point if you have a secret associated with the service principal.
+- __(+1 Point: `az ad app credential list --id <AppId associated with your service principal>`)__ In the same portal, for the same application, go to certificates and secrets and create a secret. __You must document the actual value of the secret because it will never be displayed again!!!__ We'll give you a point if you have a secret associated with the service principal.
 
 ### Standard Tier Account
 
@@ -105,21 +105,21 @@ This step creates an identity which can interface with services as if it were a 
 
 In this step, you need to create a keyvault that securely stores the information that databricks needs to access your storage blobs.
 
-- (+2 Point: `az keyvault list`) In your azure webportal, go to the keyvault page and create a keyvault. This is a place to store security keys. Now add the keyvault Id to the config file in Cloud Levelup.
+- __(+2 Point: `az keyvault list`)__ In your azure webportal, go to the keyvault page and create a keyvault. This is a place to store security keys. Now add the keyvault Id to the config file in Cloud Levelup.
 
-- (Points not added yet) Add three secrets to the key vault, as follows:
+- __(Points not added yet)__ Add three secrets to the key vault, as follows:
 
     - secret 1: call it "client-id" and give it a value of the application id (AKA client ID) of your databricks registered app (you can find that in the same window you created your service principal)
     - secret 2: call it "tenant-id" and give it the value of the tenant id in the same place.
     - secret 3: call it "client-secret" and __put the value of the secret you just generated and wrote down__.
 
-- (+1 Point: `az role assignment list --scope <yourkeyvault id>`) Give your Databricks Service Principal (which you just created) a role that can use key vault secrets using IAM (try Key Vault Secret User). In AIM, when you're assigning a member, your Service Principal should be listed under its display name as if it were a user.
+- __(+1 Point: `az role assignment list --scope <yourkeyvault id>`)__ Give your Databricks Service Principal (which you just created) a role that can use key vault secrets using IAM (try Key Vault Secret User). In AIM, when you're assigning a member, your Service Principal should be listed under its display name as if it were a user.
 
 #### Creating an Azure Key Vault-backed secret scope in databricks
 
-- (+2 Point: `az role assignment list --scope <keyvault id>`) Put your keyvault Id in the config file after you use IAM to give your service principal the role of a Key Vault Secret User in your keyvault. One point for adding the correct keyvault to the config file, and one point for giving the application service principal the correct role.
+- __(+2 Point: `az role assignment list --scope <keyvault id>`)__ Put your keyvault Id in the config file after you use IAM to give your service principal the role of a Key Vault Secret User in your keyvault. One point for adding the correct keyvault to the config file, and one point for giving the application service principal the correct role.
 
-- (+2 Points: `databricks secrets list-scopes`). Go to https://<databricks-instance>/#secrets/createScope. Enter the name of the secret scope (anything you want), select manage principal for all workspace users, the DNS name of your keyvault, and the Resource ID of your keyvault. You get a point if you can create a scope, and another point if it has a type of Azure Keyvault. I think of this as databricks "borrowing" the security afforded by Azure keyvaults.
+- __(+2 Points: `databricks secrets list-scopes`)__ Go to https://<databricks-instance>/#secrets/createScope. Enter the name of the secret scope (anything you want), select manage principal for all workspace users, the DNS name of your keyvault, and the Resource ID of your keyvault. You get a point if you can create a scope, and another point if it has a type of Azure Keyvault. I think of this as databricks "borrowing" the security afforded by Azure keyvaults.
 
 #### Checking that your databricks account can get access to the key-vault secrets.
 
@@ -171,4 +171,4 @@ At this point, debug like crazy. You're probably going to need to redo these ste
 
 #### Level 5 Summary
 
-In this level, you mounted your Azure storage blob container onto your databricks file system (DBFS). At a company or institution, this will likely be done for you, but now you know how to troubleshoot, debug, and request reconfigurations. This will also allow you to complete more of the exercises in Azure training without needing to do their setups.
+In this level, you mounted your Azure storage blob container onto your databricks file system (DBFS). At a company or institution, this will likely be done for you. However, now you know how to troubleshoot, debug, and request reconfigurations. This will also allow you to complete more of the exercises in Azure training without needing to do their setups.
