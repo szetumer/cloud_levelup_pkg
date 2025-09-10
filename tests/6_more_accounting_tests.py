@@ -50,6 +50,10 @@ def test3_resource_query3_for_getting_workspace_list(rgraph_configs):
         workspace_sum = workspace_sum + len(workspaces_in_resourcegroup)
     assert(int(result1["count"]) == workspace_sum)
 
-
-
+@pytest.mark.skipif(4 not in QUERIES_TO_RUN, reason="skipped to avoid throttling")
+def test4_select_columns(rgraph_configs):
+    result = rgq_from_rgs(rgraph_configs["query4"])
+    output_json_file(result, "query4_column_selection.json")
+    assert(isinstance(result, dict) or isinstance(result, list))
+    assert("count" in result.keys())
 

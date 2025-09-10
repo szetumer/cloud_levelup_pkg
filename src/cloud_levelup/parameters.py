@@ -52,5 +52,6 @@ rgraph_config_str : str = '''
 {
     "tests_to_run"      : [0, 1],
     "query1"            : null,
-    "query3"            : null
+    "query3"            : null,
+    "query4"            : null,
 }'''
