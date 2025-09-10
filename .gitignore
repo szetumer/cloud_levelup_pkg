@@ -4,5 +4,6 @@ tests/__pycache__
 my_configs/costman_export.json
 my_configs/databricks_config.json
 my_configs/rgraph_queries.json
+my_reports/*
 .pytest_cache
 .vscode

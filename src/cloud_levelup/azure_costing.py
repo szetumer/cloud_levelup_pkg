@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 from src.cloud_levelup.command_files import GetAzure
-from src.cloud_levelup.parameters import level_moreaccounting_folderpath
+from src.cloud_levelup.parameters import myreports_folderpath
 '''
 LEGEND
 ga = GetAzure = thin wrapper around Azure CLI
@@ -11,7 +11,7 @@ rgq = resource graph query
 rgs = resource graph string
 '''
 
-ACCOUNTING_OUTPUT_FOLDERPATH : Path = level_moreaccounting_folderpath
+ACCOUNTING_OUTPUT_FOLDERPATH : Path = myreports_folderpath
 
 def _ga_dbws(workspace_name : str, resource_group_name : str) -> dict:
     result : list[dict] = GetAzure._json("az", "databricks", "workspace", "show", "--name", workspace_name, "--resource-group", resource_group_name, "--output", "json")

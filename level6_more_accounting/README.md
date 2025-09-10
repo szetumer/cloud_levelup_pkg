@@ -13,10 +13,19 @@ As an additional motivation, consider this: if you figure out how to shave off 1
     - https://learn.microsoft.com/en-us/kusto/query/tutorials/learn-common-operators?view=azure-data-explorer&preserve-view=true
     - https://dataexplorer.azure.com/clusters/help/databases/Samples
 
-(+1 Point) go to the Azure Resource Graph Explorer page and noodle around. Make sure that the scope listed in the top left of the leftmost blade says "Subscription" and then lists your subscription. Create a KQI query that works in this portal, using single quotes for any quotations. Cut and paste it into query 1 in the `rgraph_queries.json` file to claim your point. That query must return a valid result via the azure cli to get the point. (NB: we're going to check that you have a "count" field in your query result so just keep the query simple. Most queries return a count if returned in json format)
+(+1 Point) go to the [Azure Resource Graph Explorer](https://learn.microsoft.com/en-us/azure/governance/resource-graph/first-query-portal) and noodle around. Make sure that the scope listed in the top left of the leftmost blade says "Subscription" and then lists your subscription. Create a KQI query that works in this portal, using single quotes for any quotations. Cut and paste it into query 1 in the `rgraph_queries.json` file to claim your point. That query must return a valid result via the azure cli to get the point. (NB: we're going to check that you have a "count" field in your query result so just keep the query simple. Most queries return a count if returned in json format)
 
-NOTE: these results may get big, so many of the results will be dumped into files that go into the `level6_more_accounting` folder. Inspect your results to review your work!
+NOTE: these results may get big, so many of the results will be dumped into files that go into the `my_reports` folder. Inspect your results to review your work!
 
-Here are some useful queries. Place these tests into your testing framework to get those points:
+Here are some useful queries. Activate these tests to get those points:
 
-`resources | summarize by type | sort by type asc`
+(+1 Point for activating test 2) `resources | summarize by type | sort by type asc`
+
+(+1 Point, test 3) list all your databricks workspaces as a query result. Return whatever columns you want, and the results will appear in `query3_workspace_attrs.json`. Use this to understand what attributes are associated with each workspace.
+
+To collect the equivalent amount of data without using the query system, we have to the following cli commands:
+
+- use `az group list` to get the name of all resource groups associated with your subscription.
+- for each of these resource group names, run `az databricks workspace --resource-group <resource group name>`. Sum up the length of the results.
+
+Notice that this query runs very slowly. KQI queries are much more efficient than using the Azure cli without the query. I recommend disabling this query after you get this test to pass so that your tests don't run slowly for the rest of this level.

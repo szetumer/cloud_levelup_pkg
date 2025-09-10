@@ -8,6 +8,7 @@ rootpath = Path(ROOT_PATH)
 testspath = rootpath / "tests"
 commandspath = rootpath / "commands"
 my_config_folderpath = rootpath / "my_configs"
+myreports_folderpath = rootpath / "my_reports"
 create_costman_export_configpath = rootpath / "my_configs" / "costman_export.json"
 billingexport_config_filepath = rootpath / "my_configs" / "costman_export.json"
 databricks_config_filepath = my_config_folderpath / "databricks_config.json"
