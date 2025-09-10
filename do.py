@@ -2,14 +2,16 @@ from __future__ import annotations
 import click
 from pathlib import Path
 from src.cloud_levelup.parameters import (create_costman_export_configpath, create_costman_export_str, my_config_folderpath,
-                                          databricks_config_filepath, databricks_config_str)
+                                          databricks_config_filepath, databricks_config_str, rgraph_config_str,
+                                          rgraph_config_filepath)
 from src.cloud_levelup.command_files import Config, GetAzure, Command
 from src.cloud_levelup.azure_shutdown import azure_shutdown
 import os
 
 refresh_config_registry : dict[str, str] = {
     "costman_export.json"   : create_costman_export_str,
-    "databricks_config.json": databricks_config_str
+    "databricks_config.json": databricks_config_str,
+    "rgraph_queries.json"   : rgraph_config_str
 }
 
 def _refresh_configfile(p : Path, s : str) -> None:
@@ -42,10 +44,6 @@ def create_costman_export():
     config : Config = Config(p)
     for k, v in config.configs.items():
         assert(v is not None)
-    billingaccount_names : list = GetAzure.billing_account_names()
-    assert config.configs["billing_account"] in billingaccount_names
-    billingprofiles : list =  GetAzure.billing_profiles_associated_with_billingaccount_names(config.configs["billing_account"])
-    assert config.configs["billing_profile"] in [d["id"] for d in billingprofiles]
     storageaccounts : list[dict] = GetAzure.storage_accounts()
     assert config.configs["storage_account_id"] in [d["id"] for d in storageaccounts]
     storageaccount_names = GetAzure.storage_account_names_associated_with_id(config.configs["storage_account_id"])
@@ -53,6 +51,16 @@ def create_costman_export():
     j : list[dict] = GetAzure.storage_containers_associated_with_storageaccount_name(storageaccount_names[0])
     assert config.configs["storage_container_name"] in [d["name"] for d in j]
     result : str = Command.run_create_costmanagement_export_from_configfile()
+    print(result)
+
+@cli.command()
+def costman_query():
+    p : Path = my_config_folderpath / "costman_export.json"
+    assert(p.exists())
+    config : Config = Config(p)
+    for k, v in config.configs.items():
+        assert(v is not None)
+    result : str = Command.run_costman_query_from_configfile()
     print(result)
 
 @cli.command()
@@ -67,6 +75,7 @@ def refresh_configs():
         return
     _refresh_configfile(create_costman_export_configpath, create_costman_export_str)
     _refresh_configfile(databricks_config_filepath, databricks_config_str)
+    _refresh_configfile(rgraph_config_filepath, rgraph_config_str)
 
 @cli.command()
 def shutdown():

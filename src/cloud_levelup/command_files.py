@@ -85,6 +85,15 @@ class Command:
                          config.configs["storage_directory"]
                          )
         return result
+    
+    @classmethod
+    def run_costman_query_from_configfile(cls) -> str:
+        config = Config(my_config_folderpath / "costman_export.json")
+        filename : str = "costman_query.bat" if get_system() == "Windows" else "costman_query.sh"
+        result = cls.run(True, str(scripttemplate_folderpath / filename),
+                         config.configs["billing_profile"]
+        )
+        return result
 
     @classmethod
     def get_json(cls, add_bash : bool, *args : list[str|Path]) -> list:

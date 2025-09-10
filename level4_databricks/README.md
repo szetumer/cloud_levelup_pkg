@@ -105,7 +105,7 @@ This step creates an identity which can interface with services as if it were a 
 
 In this step, you need to create a keyvault that securely stores the information that databricks needs to access your storage blobs.
 
-- (+2 Point: `az keyvault list`) In your azure webportal, go to the keyvault page and create a keyvault. This is a place to store security keys. Now add the keyvault Id to the config file in levelup cloud.
+- (+2 Point: `az keyvault list`) In your azure webportal, go to the keyvault page and create a keyvault. This is a place to store security keys. Now add the keyvault Id to the config file in Cloud Levelup.
 
 - (Points not added yet) Add three secrets to the key vault, as follows:
 

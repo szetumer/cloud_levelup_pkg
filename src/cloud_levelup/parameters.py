@@ -11,7 +11,9 @@ my_config_folderpath = rootpath / "my_configs"
 create_costman_export_configpath = rootpath / "my_configs" / "costman_export.json"
 billingexport_config_filepath = rootpath / "my_configs" / "costman_export.json"
 databricks_config_filepath = my_config_folderpath / "databricks_config.json"
+rgraph_config_filepath = my_config_folderpath / "rgraph_queries.json"
 scripttemplate_folderpath = rootpath / "script_templates"
+level_moreaccounting_folderpath = rootpath / "level6_more_accounting"
 
 def get_system() -> Literal["Windows"] | Literal["iOs"] | Literal["Linux"]:
     if platform.system() == "Windows":
@@ -43,4 +45,10 @@ databricks_config_str : str = '''
     "databricks_application_display_name" : null,
     "storage_account_tomount_name" : null,
     "db_application_scopename" : null
+}'''
+
+rgraph_config_str : str = '''
+{
+    "tests_to_run"      : [0, 1],
+    "query1"            : null
 }'''

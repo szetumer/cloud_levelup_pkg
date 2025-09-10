@@ -1,0 +1,5 @@
+
+{
+    "tests_to_run"      : [0, 1],
+    "query1"            : "resources | where type =~ 'microsoft.databricks/workspaces' | summarize total = count()"
+}

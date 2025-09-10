@@ -2,16 +2,17 @@
 
 This is a training ground for you to learn how to use Azure services. By completing Cloud Levelup you will be able to:
 
-- Manage an Azure account
-- Better understand Azure billing
-- Manage Azure storage
-- Use the azure cli
-- Use the databricks cli
-- Run a databricks workflow
+- setup an Azure account
+- better understand Azure billing
+- manage Azure storage
+- use the azure cli
+- use the databricks cli
+- run a databricks workflow
+- mount Azure storage into the databricks file system
 
 Please complete levels 0 through 3 before moving on to your favorite application. Completing Cloud Levelup __will__ cost money, so it is essential that you are comfortable learning the boring stuff (billing) before doing __anything else__ with Azure.
 
-## Level 0: LevelUp Cloud Setup
+## Level 0: Cloud Levelup Setup
 
 In this level, you will clone this github repo and check that things are set up appropriately. After cloning this github repo, cd into the package directory and start your virtual environment like so: 
 
@@ -24,7 +25,7 @@ All tests should pass. If they don't, check that you are in a virtual environmen
 
 #### Level 0 Summary
 
-You completed level 0, and set up your learning environment. This is the similar setup for all Levelup repos. Throughout these levels, we will use various cli commands to check that you have properly completed your tasks. You will work through the level using `pytest tests/<levelnumber>_<levelname>_tests.py` to track your progress.
+You completed level 0, and set up your learning environment. This is the similar setup for all Levelup repos. Throughout these levels, we will use various cli commands to give you points for correctly doing tasks. You will work through the level using `pytest tests/<levelnumber>_<levelname>_tests.py` to track your progress.
 
 ## Level 1: Azure Subscription, Resource Group, and Some Storage
 
@@ -55,19 +56,19 @@ A storage account associates storage containers with a resource group and, there
 
 ## Level 2: Billing Accounts and Billing Profiles
 
-Whew! That was an annoying level. Setting things up is always a pain. This level will ask you to explore billing information. Do NOT upload this section to another computer or give to anyone else. Run `pytest tests\2_billing_tests.py -vv` to test for this level. Note: if you're not working in your own personal account, you may or may not have access to these parts of an Azure account.
+Whew! That was an annoying level. Setting things up is always a pain. This level will ask you to explore billing information. Do NOT upload the data from this section to another computer or give to anyone else. Run `pytest tests\2_billing_tests.py -vv` to test for this level. Note: if you're not working in your own personal account, you may or may not have access to these parts of an Azure account.
 
-To pass tests in this level, do the following:
+To pass tests in this level, and get all the points, do the following:
 
-- Run `python do.py refresh_configs`. This will import files into your `my_configs` folder for you to fill out. The first two tests should pass now. Run `python do.py --help` for info on the minimal cli of the levelup cloud game.
+- (+2 Points) Run `python do.py refresh_configs`. This will import files into your `my_configs` folder for you to fill out. Run `python do.py --help` for info on the minimal cli of the Cloud Levelup game.
 
 - In the file `costman_export.json` within `my_configs`, you will add the information you need to create a billing report for a billing profile.
 
-    - You will need to add your billing account name to the first config. This billing account is the one containing the profile that you would like financial information about. If you add anything at all, another test will pass. If you add a correct billing account name, yet another test will pass. (Hint: we check `az billing account list --output json` to check your billing account `name`).
+    - (+2 Points) You will need to add your billing account name to the first config. This billing account is the one containing the profile that you would like financial information about. If you add anything at all, another test will pass. If you add a correct billing account name. (Hint: we check `az billing account list --output json` to check your billing account `name`).
         - a billing account is a collection of billing profiles, billing addresses, and contact information.
         - a billing profile manages a single subscription. So when you signed up, you created a billing profile and a billing account that hosts it. It __must__ be the one associated with the billing account you entered for this level. __AGAIN__, do not post this information anywhere. Do not upload this information to github.
 
-    - Add your billing profile __id__ (not a name) that you want to track financially. It must be associated with the previously added billing account. You can find this information with the `az billing profile list --account-name <your account name>` command. You should also be able to look this up with the Azure webportal. Yet another slew of tests should pass after you do this correctly. Look at the data associated with billing profiles. See what is and isn't there.
+    - (+? Points) Add your billing profile __id__ (not a name) that you want to track financially. It must be associated with the previously added billing account. You can find this information with the `az billing profile list --account-name <your account name>` command. You should also be able to look this up with the Azure webportal. Look at the data associated with billing profiles. See what is and isn't there.
 
 #### Level 2 Summary
 
@@ -107,4 +108,5 @@ In these levels, you learned a little bit about budgeting in Azure and a little 
 
 Open the readme file contained in a folder whose levels you would like to complete using your favorite code editor. Follow the instructions and use the `pytest tests/<level number>_<levelname>_tests.py [-rA -rX and/or -vv]` method to track your progress. Levels are as follows:
 
-#### databricks_levels - Levels 4, 5
+#### learning databricks - Levels 4, 5
+#### cleaning up resources - Level 6
