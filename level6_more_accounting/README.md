@@ -16,3 +16,7 @@ As an additional motivation, consider this: if you figure out how to shave off 1
 (+1 Point) go to the Azure Resource Graph Explorer page and noodle around. Make sure that the scope listed in the top left of the leftmost blade says "Subscription" and then lists your subscription. Create a KQI query that works in this portal, using single quotes for any quotations. Cut and paste it into query 1 in the `rgraph_queries.json` file to claim your point. That query must return a valid result via the azure cli to get the point. (NB: we're going to check that you have a "count" field in your query result so just keep the query simple. Most queries return a count if returned in json format)
 
 NOTE: these results may get big, so many of the results will be dumped into files that go into the `level6_more_accounting` folder. Inspect your results to review your work!
+
+Here are some useful queries. Place these tests into your testing framework to get those points:
+
+`resources | summarize by type | sort by type asc`

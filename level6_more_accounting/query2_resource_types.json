@@ -1,0 +1,37 @@
+{
+   "count": 10,
+   "data": [
+      {
+         "type": "microsoft.databricks/workspaces"
+      },
+      {
+         "type": "microsoft.keyvault/vaults"
+      },
+      {
+         "type": "microsoft.managedidentity/userassignedidentities"
+      },
+      {
+         "type": "microsoft.network/natgateways"
+      },
+      {
+         "type": "microsoft.network/networksecuritygroups"
+      },
+      {
+         "type": "microsoft.network/networkwatchers"
+      },
+      {
+         "type": "microsoft.network/publicipaddresses"
+      },
+      {
+         "type": "microsoft.network/virtualnetworks"
+      },
+      {
+         "type": "microsoft.saas/resources"
+      },
+      {
+         "type": "microsoft.storage/storageaccounts"
+      }
+   ],
+   "skip_token": null,
+   "total_records": 10
+}

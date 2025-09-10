@@ -3,5 +3,6 @@ src/cloud_levelup/__pycache__
 tests/__pycache__
 my_configs/costman_export.json
 my_configs/databricks_config.json
+my_configs/rgraph_queries.json
 .pytest_cache
 .vscode

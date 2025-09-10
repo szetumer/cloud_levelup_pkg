@@ -24,17 +24,20 @@ def _dbws_is_vnet_enabled(db_workspace_info : dict) -> bool:
         return True
     return False
 
-def _rgs_minimal():
+def rgs_minimal():
     return "resources | where type =~ 'microsoft.databricks/workspaces' | count"
 
-def _rgs_return5():
+def rgs_return5():
     return "resources | where type =~ 'microsoft.databricks/workspaces' | project name, type | limit 5"
 
-def _rgs_query(rgs : str):
+def rgs_summarize_types():
+    return "resources | summarize by type | sort by type asc"
+
+def rgq_from_rgs(rgs : str):
     result = GetAzure._json("az", "graph", "query", "-q", rgs, "--output", "json")
     return result
 
-def _output_json_file(j_str : dict | list, filename : str, folderpath : Path = ACCOUNTING_OUTPUT_FOLDERPATH):
+def output_json_file(j_str : dict | list, filename : str, folderpath : Path = ACCOUNTING_OUTPUT_FOLDERPATH):
     p : Path = folderpath / filename
     with open(p, "w") as f:
         f.write(json.dumps(j_str, indent=3))

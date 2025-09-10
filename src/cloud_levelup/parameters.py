@@ -50,5 +50,6 @@ databricks_config_str : str = '''
 rgraph_config_str : str = '''
 {
     "tests_to_run"      : [0, 1],
-    "query1"            : null
+    "query1"            : null,
+    "query3"            : null
 }'''
