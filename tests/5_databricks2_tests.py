@@ -86,7 +86,6 @@ def test_application_has_been_registered(service_principal_info : dict):
     print(service_principal_info)
     assert(True)
 
-
 def test_databricks_has_secret_scope():
     j : list[dict] = GetAzure._json("databricks", "secrets", "list-scopes", "--output", "json")
     assert(len(j)>0)
