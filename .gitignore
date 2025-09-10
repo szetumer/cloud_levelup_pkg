@@ -7,3 +7,5 @@ my_configs/rgraph_queries.json
 my_reports/*
 .pytest_cache
 .vscode
+!my_configs/_README.md
+!my_reports/_README.md
