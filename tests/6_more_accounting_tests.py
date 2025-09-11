@@ -52,8 +52,19 @@ def test3_resource_query3_for_getting_workspace_list(rgraph_configs):
 
 @pytest.mark.skipif(4 not in QUERIES_TO_RUN, reason="skipped to avoid throttling")
 def test4_select_columns(rgraph_configs):
-    result = rgq_from_rgs(rgraph_configs["query4"])
+    if rgraph_configs["query4"] is None:
+        pytest.fail("query4 is None. Please either disable this test or provide a resource graph query")
+    result : dict = rgq_from_rgs(rgraph_configs["query4"])
+    if not isinstance(result, dict):
+        pytest.fail("query4 does not work well. Please either disable this test or provide a query")
     output_json_file(result, "query4_column_selection.json")
     assert(isinstance(result, dict) or isinstance(result, list))
-    assert("count" in result.keys())
+    if result["count"] == 0:
+        pytest.fail("query4 does not return anything")
+    for workspace_attrs in result["data"]:
+        assert("id" in workspace_attrs.keys())
+        assert("name" in workspace_attrs.keys())
+        assert("properties_parameters" in workspace_attrs.keys())
+        assert(isinstance(workspace_attrs["properties_parameters"], dict))
+
 

@@ -78,6 +78,8 @@ FOOTGUN1: Your storage account must be ADLS Gen2 with hierarchical namespaces, e
 
 FOOTGUN2: You have to have some content in your stoage container. It can be a single file, but it must be something for your databricks to interpret.
 
+FOOTGUN3: If you have multiple databrick accounts or workspaces, your CLI might not be configured to the correct one.
+
 TL;DR, Databricks are not intrinsically connected to datalakes or any other part of your Azure account. The process of connecting Azure storage to databricks is called "mounting" if you're doing it without Unity Catalog. If you have standard tier, you can't use Unity, so we're going to discuss how to do this for standard tier, although instructions for premium tier and tests related to that workflow can be found at the end of this level.
 
 - Your first step is to learn about about RBAC (Role Based Access Controls) and Service Principals. You can take Microsoft training for these subjects. There are no points associated with this activity though, and we will NOT be using RBAC for this mountt. RBAC is recommended, but we can't associate service principals created in Azure to databricks with standard tier either, so RBAC is out.
@@ -172,3 +174,5 @@ At this point, debug like crazy. You're probably going to need to redo these ste
 #### Level 5 Summary
 
 In this level, you mounted your Azure storage blob container onto your databricks file system (DBFS). At a company or institution, this will likely be done for you. However, now you know how to troubleshoot, debug, and request reconfigurations. This will also allow you to complete more of the exercises in Azure training without needing to do their setups.
+
+Note: I would strongly recommend deleting everything you have created if you need to keep costs extremely low. Depending on your dbworkspace config, you may be charged a few bucks a day. Don't forget to delete your clusters and nat gateway.
