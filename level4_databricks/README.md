@@ -21,12 +21,12 @@ Levels 0 through 3 were a little rocky, I'm not going to lie. Now that you have 
 
 - __(+1 Point)__ Use the cli to get the cluster id, and put that cluster id into the `databricks_config.json` file in the `my_configs` folder.
 
-- __(+3 or so Points : `databricks clusters list --output json`)__ When you create a cluster, the defaults will be fairly expensive, likely over $2 DBU/h. For learning, this can quickly rack up costs. To reduce costs, do the following:
+- __(+3 or so Points : `databricks clusters list --output json`)__ When you create a cluster, the defaults will be fairly expensive, likely over 2 DBU/h. For learning, this can quickly rack up costs. To reduce costs, do the following:
     - set the autotermination_minutes to something under 30. A test will pass for this.
     - set the Node Type to single node, passing another test.
     - Choose a virtual machine from the D2 series, passing another test. If you can get something from the B series, apparently this is cheaper and your test should still pass, but it wasn't offered in my region.
     - I would recommend turning off photon acceleration. I couldn't figure out how to test for this.
-    - Check the right hand corner of your compute configure screen, and you should see a price under $1 DBU/h. I got mine to ~ $0.50 DBU/h, but that was as low as I could muster. This is not tested.
+    - Check the right hand corner of your compute configure screen, and you should see a price under 1 DBU/h. I got mine to ~ $0.50 DBU/h, but that was as low as I could muster. This threshold awards no points :(
 
 ###### TROUBLESHOOTING:
 1) You must have a chargeable account to associate to a cluster. I experienced errors when my free subscription ran out.

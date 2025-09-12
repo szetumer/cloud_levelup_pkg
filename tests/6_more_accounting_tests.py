@@ -1,4 +1,5 @@
 import pytest
+import json
 from src.cloud_levelup.azure_costing import rgq_from_rgs, rgs_minimal, output_json_file, rgs_summarize_types
 from src.cloud_levelup.command_files import Config, GetAzure
 from src.cloud_levelup.parameters import rgraph_config_filepath
@@ -68,14 +69,63 @@ class TestLearningKQL:
             assert("properties_parameters" in workspace_attrs.keys())
             assert(isinstance(workspace_attrs["properties_parameters"], dict))
 
-ready_for_section_2 : bool = not any(q in [0,1,2,3,4] for q in QUERIES_TO_RUN)
-
-@pytest.mark.skipif(not ready_for_section_2, reason="still querying section 1. Disable all section 1 tests to continue with this section.")
 class TestLearningAboutNatGateways:
-    def test5_ready_for_section2(self):
-        assert(True)
-    
-    @pytest.mark.skipif(6 not in QUERIES_TO_RUN, reason="skipped to avoid throttling")
-    def test6_(self):
+    def test5_not_implemented(self):
         assert(True)
 
+    @pytest.mark.skipif(6 not in QUERIES_TO_RUN, reason="skipped to avoid throttling")
+    def test6_understanding_NAT_gateways(self, rgraph_configs):
+        q : str = rgraph_configs["query6"]
+        assert(q is not None)
+        result : dict = rgq_from_rgs(q)
+        assert(isinstance(result, dict))
+        output_json_file(result, "query6_natgateways.json")
+        if result["count"] == 0:
+            pytest.skip("you don't have any NAT gateways to delete.")
+            return
+        data : list[dict] = result["data"]
+        for ngateway in data:
+            assert("id" in ngateway.keys())
+            assert("name" in ngateway.keys())
+            assert("subscriptions" in ngateway["id"])
+            assert("tags" in ngateway.keys())
+            assert("subnets" in ngateway.keys())
+            assert("public_ip_addresses" in ngateway.keys())
+            assert("id" in ngateway["subnets"][0])
+            assert(len(ngateway.keys()) >= 5)
+    
+    @pytest.mark.skipif(7 not in QUERIES_TO_RUN, reason = "skipped to avoid throttling")
+    def test7_virtualmachines(self, rgraph_configs):
+        q : str = rgraph_configs["query7"]
+        assert(q is not None)
+        result : dict = rgq_from_rgs(q)
+        assert(isinstance(result, dict))
+        output_json_file(result, "query7_virtualmachines.json")
+        if result["count"] == 0:
+            pytest.skip("you don't have any NAT gateways associated with databricks..")
+            return
+        data : list[dict] = result["data"]
+        assert(True)
+
+    @pytest.mark.skipif(8 not in QUERIES_TO_RUN, reason = "skipped to avoid throttling")
+    def test8_networkinterfaces(self, rgraph_configs):
+        q : str = rgraph_configs["query8"]
+        assert(q is not None)
+        result : dict = rgq_from_rgs(q)
+        assert(isinstance(result, dict))
+        output_json_file(result, "query8_networkinterfaces.json")
+        data : list[dict] = result["data"]
+        assert(True)
+
+    @pytest.mark.skipif(9 not in QUERIES_TO_RUN, reason = "skipped to avoid throttling")
+    def test9(self, rgraph_configs):
+        q : str = rgraph_configs["query9"]
+        assert(q is not None)
+        result : dict = rgq_from_rgs(q)
+        assert(isinstance(result, dict))
+        output_json_file(result, "query9_linkingthemtogether.json")
+        if result["count"] == 0:
+            pytest.skip("you don't have any NAT gateways associated with databricks..")
+            return
+        data : list[dict] = result["data"]
+        assert(True)

@@ -54,5 +54,7 @@ rgraph_config_str : str = '''
     "query1"            : null,
     "query3"            : null,
     "query4"            : null,
-    "query6"            : null
+    "query6"            : null,
+    "query7"            : null,
+    "query8"            : null
 }'''
